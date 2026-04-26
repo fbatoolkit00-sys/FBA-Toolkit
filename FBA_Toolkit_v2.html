@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FBA Toolkit — Group 6 · BSNEd 4.1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue:        #1a3a6b;
+    --blue-dark:   #0f2348;
+    --blue-mid:    #1e4080;
+    --blue-light:  #e8eef8;
+    --blue-pale:   #f0f4fc;
+    --gold:        #e6a800;
+    --gold-bright: #f5c518;
+    --gold-light:  #fdd96b;
+    --gold-pale:   #fffbea;
+    --white:       #ffffff;
+    --off-white:   #f7f9fd;
+    --text-dark:   #1a2a4a;
+    --text-mid:    #3a5070;
+    --text-muted:  #6b82a0;
+    --border-light: rgba(26,58,107,0.15);
+    --border-gold:  rgba(230,168,0,0.35);
+    --shadow:      0 4px 20px rgba(26,58,107,0.12);
+    --radius:      10px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--off-white);
+    color: var(--text-dark);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* ===== NAVBAR ===== */
+  nav {
+    position: sticky; top: 0; z-index: 999;
+    background: var(--blue-dark);
+    border-bottom: 3px solid var(--gold-bright);
+    padding: 0 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  }
+  .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 12px; }
+  .nav-brand { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--gold-bright); text-decoration: none; white-space: nowrap; flex-shrink: 0; }
+  .nav-links { display: flex; flex-wrap: wrap; gap: 2px; list-style: none; }
+  .nav-links a { display: block; padding: 6px 11px; color: #c8d8f0; text-decoration: none; font-size: 0.82rem; font-weight: 500; border-radius: 5px; transition: background 0.2s, color 0.2s; white-space: nowrap; }
+  .nav-links a:hover { background: var(--gold-bright); color: var(--blue-dark); }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 55%, var(--blue-mid) 100%);
+    border-bottom: 4px solid var(--gold-bright);
+    padding: 80px 24px 64px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(245,197,24,0.1) 0%, transparent 65%); pointer-events: none; }
+  .hero-tag { display: inline-block; background: var(--gold-bright); color: var(--blue-dark); font-size: 0.78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 4px 16px; border-radius: 30px; margin-bottom: 22px; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.4rem); color: var(--white); line-height: 1.15; margin-bottom: 12px; }
+  .hero h1 em { color: var(--gold-bright); font-style: italic; }
+  .hero p { color: #c8d8f0; max-width: 620px; margin: 0 auto 36px; font-size: 1.05rem; }
+  .hero-stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-bottom: 36px; }
+  .hero-stat { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: var(--radius); padding: 14px 24px; min-width: 110px; }
+  .hero-stat .num { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--gold-bright); display: block; line-height: 1; }
+  .hero-stat .lbl { font-size: 0.78rem; color: rgba(255,255,255,0.65); text-transform: uppercase; letter-spacing: .06em; }
+  .disclosure { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-left: 4px solid var(--gold-bright); border-radius: var(--radius); padding: 16px 20px; max-width: 760px; margin: 0 auto; font-size: 0.88rem; color: #c8d8f0; text-align: left; }
+  .disclosure strong { color: var(--gold-bright); }
+
+  /* ===== SECTIONS ===== */
+  section { padding: 72px 24px; }
+  section { background: var(--white); }
+  section:nth-child(even) { background: var(--blue-pale); }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--blue-mid); margin-bottom: 8px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 3.5vw, 2.4rem); color: var(--blue-dark); margin-bottom: 10px; line-height: 1.2; }
+  .section-sub { color: var(--text-muted); margin-bottom: 40px; font-size: 1rem; max-width: 680px; }
+  .divider { width: 60px; height: 3px; background: var(--gold); border-radius: 2px; margin: 0 0 40px; }
+
+  /* ===== CARDS ===== */
+  .card { background: var(--white); border: 1px solid var(--border-light); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s; }
+  .card:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(26,58,107,0.16); }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 20px; }
+  .card-icon { font-size: 1.8rem; margin-bottom: 10px; }
+  .card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--blue); margin-bottom: 8px; }
+  .card p { font-size: 0.9rem; color: var(--text-mid); }
+  .card-badge { display: inline-block; background: var(--gold-pale); color: var(--blue-dark); border: 1px solid var(--border-gold); font-size: 0.7rem; font-weight: 700; letter-spacing: .06em; padding: 2px 8px; border-radius: 20px; margin-top: 10px; text-transform: uppercase; }
+
+  /* ===== TABS ===== */
+  .tab-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 28px; border-bottom: 2px solid var(--border-light); padding-bottom: 10px; }
+  .tab-btn { background: var(--white); border: 1px solid var(--border-light); color: var(--text-mid); padding: 8px 18px; border-radius: 6px; cursor: pointer; font-family: 'Source Sans 3', sans-serif; font-size: 0.88rem; font-weight: 600; transition: all 0.2s; }
+  .tab-btn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-light); }
+  .tab-btn.active { background: var(--blue); color: var(--white); border-color: var(--blue); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ===== FORMS ===== */
+  .form-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-bottom: 14px; }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  .form-group label { font-size: 0.82rem; font-weight: 600; color: var(--blue); text-transform: uppercase; letter-spacing: .05em; }
+  input[type="text"], input[type="date"], textarea, select { background: var(--white); border: 1px solid #c5d0e0; border-radius: 6px; padding: 9px 12px; color: var(--text-dark); font-family: 'Source Sans 3', sans-serif; font-size: 0.92rem; width: 100%; transition: border-color 0.2s; }
+  input[type="text"]:focus, textarea:focus, select:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,58,107,0.1); }
+  select option { background: var(--white); color: var(--text-dark); }
+  textarea { min-height: 80px; resize: vertical; }
+  table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.88rem; }
+  table thead tr { background: var(--blue-light); }
+  th, td { border: 1px solid #d0daea; padding: 10px 12px; text-align: left; }
+  th { color: var(--blue-dark); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: .04em; }
+  td { color: var(--text-mid); }
+  td input[type="text"] { border: none; background: transparent; padding: 4px; color: var(--text-dark); }
+  tr:nth-child(even) td { background: var(--blue-pale); }
+
+  /* ===== BUTTONS ===== */
+  .btn { display: inline-flex; align-items: center; gap: 8px; background: var(--gold); color: var(--blue-dark); border: none; border-radius: 7px; padding: 10px 22px; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-decoration: none; transition: background 0.2s, transform 0.15s; }
+  .btn:hover { background: var(--gold-bright); transform: translateY(-1px); }
+  .btn-outline { background: transparent; border: 2px solid var(--blue); color: var(--blue); }
+  .btn-outline:hover { background: var(--blue); color: var(--white); }
+  .btn-sm { padding: 7px 16px; font-size: 0.82rem; }
+  .btn-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+
+  /* ===== ACCORDION ===== */
+  .accordion { border: 1px solid var(--border-light); border-radius: var(--radius); overflow: hidden; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(26,58,107,0.07); }
+  .accordion-head { width: 100%; background: var(--white); border: none; color: var(--blue-dark); padding: 16px 20px; text-align: left; cursor: pointer; font-family: 'Source Sans 3', sans-serif; font-size: 1rem; font-weight: 600; display: flex; align-items: center; justify-content: space-between; transition: background 0.2s; }
+  .accordion-head:hover { background: var(--blue-light); }
+  .accordion-head .icon { color: var(--gold); font-size: 1.1rem; flex-shrink: 0; }
+  .accordion-body { display: none; padding: 20px; background: var(--blue-pale); border-top: 2px solid var(--gold); }
+  .accordion-body.open { display: block; }
+  .case-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+  .case-a { background: var(--gold-pale); color: #7a5800; border: 1px solid var(--border-gold); }
+  .case-b { background: var(--blue-light); color: var(--blue-dark); border: 1px solid var(--border-light); }
+  .case-c { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+  .hypothesis-box { background: var(--gold-pale); border: 1px solid var(--border-gold); border-left: 4px solid var(--gold); border-radius: 7px; padding: 14px 18px; margin: 14px 0; font-size: 0.93rem; color: var(--text-dark); }
+  .hypothesis-box strong { color: var(--blue-dark); }
+
+  /* ===== PRACTICAL SKILLS ===== */
+  .skill-block { background: var(--white); border: 1px solid var(--border-light); border-top: 4px solid var(--blue); border-radius: var(--radius); padding: 28px; margin-bottom: 20px; box-shadow: var(--shadow); }
+  .skill-block h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--blue-dark); margin-bottom: 10px; }
+  .skill-block p { color: var(--text-mid); font-size: 0.95rem; margin-bottom: 14px; }
+  .skill-block .skill-steps { list-style: none; padding: 0; }
+  .skill-block .skill-steps li { padding: 10px 0 10px 22px; border-bottom: 1px solid var(--blue-light); color: var(--text-mid); font-size: 0.93rem; position: relative; }
+  .skill-block .skill-steps li::before { content: '▸'; color: var(--gold); position: absolute; left: 0; font-size: 1rem; }
+  .skill-block .skill-steps li:last-child { border-bottom: none; }
+  .skill-citation { font-size: 0.78rem; color: var(--text-muted); font-style: italic; margin-top: 14px; }
+  .practice-box { background: var(--gold-pale); border: 2px dashed var(--border-gold); border-radius: var(--radius); padding: 22px; margin-top: 20px; }
+  .practice-box h4 { color: var(--gold); margin-bottom: 10px; font-size: 1rem; }
+  .practice-box p { color: var(--text-light); font-size: 0.88rem; margin-bottom: 10px; }
+
+  /* ===== QUIZ ===== */
+  .quiz-item { background: var(--white); border: 1px solid var(--border-light); border-radius: var(--radius); padding: 22px; margin-bottom: 16px; }
+  .quiz-item p { font-weight: 600; color: var(--text-dark); margin-bottom: 12px; }
+  .quiz-opt { display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; border-radius: 6px; cursor: pointer; transition: background 0.15s; }
+  .quiz-opt:hover { background: rgba(245,197,24,0.07); }
+  .quiz-opt input[type="radio"] { accent-color: var(--gold); margin-top: 3px; flex-shrink: 0; }
+  .quiz-opt label { cursor: pointer; color: var(--text-mid); font-size: 0.93rem; }
+  .quiz-result { margin-top: 8px; font-size: 0.88rem; display: none; padding: 6px 12px; border-radius: 5px; font-weight: 600; }
+  .quiz-result.correct { background: rgba(34,197,94,0.15); color: #16a34a; }
+  .quiz-result.wrong { background: rgba(239,68,68,0.15); color: #dc2626; }
+  .score-box { background: var(--white); border: 2px solid var(--gold); border-radius: var(--radius); padding: 28px; text-align: center; display: none; margin-top: 20px; }
+  .score-box .score { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--gold); }
+  .score-box p { color: var(--text-mid); margin-top: 8px; }
+
+  /* ===== VIDEO ===== */
+  .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+  .video-card { background: var(--white); border: 1px solid var(--border-light); border-radius: var(--radius); overflow: hidden; transition: border-color 0.2s, transform 0.2s; }
+  .video-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .video-thumb { background: linear-gradient(135deg, var(--blue-light), var(--blue-mid)); height: 160px; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+  .video-body { padding: 18px; }
+  .video-tag { font-size: 0.72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .video-body h3 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--blue-dark); margin-bottom: 8px; line-height: 1.3; }
+  .video-body p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; }
+  .video-cite { font-size: 0.78rem; color: var(--text-muted); font-style: italic; margin-bottom: 14px; }
+  .video-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .vtag { background: rgba(230,168,0,0.1); color: var(--gold); font-size: 0.7rem; padding: 2px 8px; border-radius: 20px; }
+
+  /* ===== LETTER ===== */
+  .letter-box { background: var(--white); color: #1a1a1a; border-radius: var(--radius); padding: 40px 44px; font-family: 'Source Sans 3', sans-serif; line-height: 1.8; margin-bottom: 30px; font-size: 0.95rem; }
+  .letter-box h3 { font-family: 'Playfair Display', serif; color: var(--blue-dark); margin-bottom: 20px; font-size: 1.2rem; text-align: center; }
+  .letter-box .blank { display: inline-block; border-bottom: 1px solid #aaa; min-width: 160px; }
+
+  /* ===== IRIS LINKS ===== */
+  .iris-links { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+  .iris-links li a { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: rgba(245,197,24,0.07); border: 1px solid var(--border-light); border-radius: 7px; color: var(--gold); text-decoration: none; font-size: 0.88rem; font-weight: 600; transition: background 0.2s, border-color 0.2s; }
+  .iris-links li a:hover { background: rgba(245,197,24,0.18); border-color: var(--gold); }
+  .iris-links li a::before { content: '↗'; font-size: 0.9rem; }
+
+  /* ===== GLOSSARY ===== */
+  .glossary-item { border-bottom: 1px solid var(--border-light); padding: 16px 0; }
+  .glossary-item dt { font-weight: 700; color: var(--gold); margin-bottom: 4px; }
+  .glossary-item dd { color: var(--text-mid); font-size: 0.93rem; }
+
+  /* ===== GDOCS LINK BOX ===== */
+  .gdocs-link-box {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--blue-pale);
+    border: 1.5px solid var(--border-light);
+    border-left: 4px solid var(--gold);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .gdocs-link-box .gdocs-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+  .gdocs-link-box .gdocs-text {
+    flex: 1;
+    min-width: 200px;
+  }
+  .gdocs-link-box .gdocs-text p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .gdocs-link-box .gdocs-text strong {
+    color: var(--blue-dark);
+    font-size: 0.95rem;
+  }
+  .gdocs-link-box a.btn {
+    flex-shrink: 0;
+  }
+
+  /* ===== WORKSHOP MATRIX (REDESIGNED) ===== */
+  .matrix-wrapper {
+    overflow-x: auto;
+    border-radius: var(--radius);
+    box-shadow: 0 6px 32px rgba(26,58,107,0.14);
+    border: 1px solid var(--border-light);
+  }
+  .matrix-table {
+    width: 100%;
+    min-width: 800px;
+    border-collapse: collapse;
+    font-size: 0.87rem;
+  }
+  /* Column group headers */
+  .matrix-table .col-header {
+    background: var(--blue-dark);
+    color: var(--gold-bright);
+    padding: 16px 14px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    vertical-align: middle;
+    border-bottom: 3px solid var(--gold-bright);
+  }
+  .matrix-table .col-header .day-num-big {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    display: block;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+  .matrix-table .col-header .day-sub {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.65);
+    font-weight: 400;
+    letter-spacing: .04em;
+    text-transform: none;
+    display: block;
+    margin-top: 3px;
+  }
+  /* Time column */
+  .matrix-table .time-col {
+    background: var(--blue-light);
+    color: var(--blue-dark);
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-align: center;
+    white-space: nowrap;
+    padding: 12px 10px;
+    border-right: 2px solid var(--border-light);
+    vertical-align: middle;
+    line-height: 1.4;
+    min-width: 90px;
+  }
+  /* Break rows */
+  .matrix-table .break-row td {
+    background: #f5f7fb;
+    text-align: center;
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 0.82rem;
+    padding: 8px;
+    border-top: 1px dashed var(--border-light);
+    border-bottom: 1px dashed var(--border-light);
+  }
+  /* Activity cells */
+  .matrix-table .act-cell {
+    padding: 14px 16px;
+    vertical-align: top;
+    border: 1px solid #dde5f0;
+    background: var(--white);
+  }
+  .matrix-table tr:nth-child(even) .act-cell {
+    background: var(--blue-pale);
+  }
+  .act-cell .act-title {
+    font-weight: 700;
+    color: var(--blue-dark);
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    line-height: 1.3;
+  }
+  .act-cell .act-desc {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  .act-cell .act-time-note {
+    font-weight: 400;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+  }
+  /* Activity type pills */
+  .act-pill {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    margin-bottom: 7px;
+  }
+  .pill-lecture  { background: var(--gold-pale); color: #7a5800; border: 1px solid var(--border-gold); }
+  .pill-group    { background: var(--blue-light); color: var(--blue-dark); border: 1px solid var(--border-light); }
+  .pill-hands    { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+  .pill-sim      { background: #fce4ec; color: #b71c1c; border: 1px solid #f48fb1; }
+  .pill-synth    { background: #f3e5f5; color: #6a1b9a; border: 1px solid #ce93d8; }
+  .pill-close    { background: var(--gold-pale); color: #7a5800; border: 1px solid var(--border-gold); }
+  .pill-demo     { background: #e3f2fd; color: #0d47a1; border: 1px solid #90caf9; }
+
+  /* Matrix legend */
+  .matrix-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+    align-items: center;
+  }
+  .matrix-legend .leg-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-right: 4px;
+  }
+
+  /* Day summary cards */
+  .day-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 36px;
+  }
+  .day-card {
+    border-radius: var(--radius);
+    padding: 22px;
+    border-top: 4px solid var(--gold-bright);
+  }
+  .day-card-1 { background: var(--blue-dark); }
+  .day-card-2 { background: var(--blue); }
+  .day-card-3 { background: var(--blue-mid); }
+  .day-card .dc-num {
+    background: var(--gold-bright); color: var(--blue-dark);
+    font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.5rem;
+    width: 44px; height: 44px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 12px;
+  }
+  .day-card .dc-label { color: var(--gold-bright); font-size: 0.72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; }
+  .day-card h3 { font-family: 'Playfair Display', serif; color: #fff; font-size: 1rem; line-height: 1.3; margin-bottom: 8px; }
+  .day-card p { color: rgba(255,255,255,0.65); font-size: 0.82rem; }
+
+  /* ===== FOOTER ===== */
+  footer { background: #080f22; border-top: 2px solid var(--gold); padding: 40px 24px; text-align: center; }
+  footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold); margin-bottom: 10px; }
+  footer p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.7; }
+  footer a { color: var(--gold); text-decoration: none; }
+
+  /* ===== UTILITY ===== */
+  .gold { color: var(--gold); }
+  .mt-0 { margin-top: 0; }
+  .mt-16 { margin-top: 16px; }
+  .mt-24 { margin-top: 24px; }
+  .mb-8 { margin-bottom: 8px; }
+
+  @media (max-width: 680px) {
+    .nav-links { display: none; }
+    section { padding: 48px 16px; }
+    .letter-box { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">F · FBA Toolkit</a>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#workshop">Workshop</a></li>
+      <li><a href="#practical">Practical Skills</a></li>
+      <li><a href="#pretest">Pre/Post-Test</a></li>
+      <li><a href="#forms">ABC &amp; BIP Forms</a></li>
+      <li><a href="#cases">Case Studies</a></li>
+      <li><a href="#videos">Videos</a></li>
+      <li><a href="#letters">Official Letters</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-tag">BSNEd Research Output · Group 6 · NTC 2025–2026</div>
+  <h1>Functional Behavioral Assessment <em>Workshop Toolkit</em></h1>
+  <p>A comprehensive, evidence-based resource for pre-service Special Needs Education teachers. Developed by Group 6, BSNEd 4.1 — National Teachers College.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="num">3</span><span class="lbl">Workshop Days</span></div>
+    <div class="hero-stat"><span class="num">9</span><span class="lbl">Research Themes</span></div>
+    <div class="hero-stat"><span class="num">4</span><span class="lbl">Case Studies</span></div>
+    <div class="hero-stat"><span class="num">10</span><span class="lbl">Assessment Items</span></div>
+    <div class="hero-stat"><span class="num">5</span><span class="lbl">Video Resources</span></div>
+  </div>
+  <div class="disclosure">
+    <strong>🤖 Disclosure:</strong> This digital toolkit website was created with the assistance of AI. However, all content — including the workshop program, case studies, assessment items, and research-based recommendations — is grounded entirely in the findings and work of the researchers (Group 6, BSNEd 4.1). The official letters and data collection forms were crafted by the researchers to assist future scholars in carrying out or expanding this study. AI was used solely as a design and development tool, not as a content author.
+  </div>
+</header>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="section-inner">
+    <div class="section-label">Toolkit Overview</div>
+    <h2 class="section-title">What's Inside This Toolkit</h2>
+    <p class="section-sub">Developed from original thesis research identifying gaps in pre-service SNEd teacher knowledge of FBA. All resources are grounded in evidence-based practice and Philippine inclusive education policy.</p>
+    <div class="divider"></div>
+
+    <div style="background:var(--blue-pale);border:1px solid var(--border-light);border-radius:var(--radius);padding:28px;margin-bottom:40px;">
+      <h3 style="font-family:'Playfair Display',serif;color:var(--gold);margin-bottom:12px;">About This Research</h3>
+      <p style="color:var(--text-mid);margin-bottom:12px;">This toolkit is the primary output of the study <em>"Exploring the Level of Awareness of Pre-Service Special Needs Education Teachers on Functional Behavioral Assessment (FBA): A Basis for FBA Workshop."</em> The research identified significant gaps in pre-service teacher knowledge of FBA concepts, data collection techniques, and intervention planning — gaps this workshop and toolkit are designed to address.</p>
+      <p style="color:var(--text-mid);">The study employed quantitative and qualitative methods, including a researcher-made survey instrument and Focus Group Discussions (FGDs) with 10 pre-service BSNEd teachers, yielding nine thematic findings that directly shaped every component of this toolkit.</p>
+    </div>
+
+    <div class="card-grid">
+      <div class="card"><div class="card-icon">📅</div><h3>Workshop Program</h3><p>3-day program matrix with progressive skill-building from FBA fundamentals to BIP development.</p></div>
+      <div class="card"><div class="card-icon">🎯</div><h3>Practical Skills</h3><p>Targeted exercises for defining behaviors in measurable terms and developing evidence-based BIPs.</p></div>
+      <div class="card"><div class="card-icon">📝</div><h3>Pre/Post-Test</h3><p>10-item assessment tool for measuring FBA awareness and skills before and after the workshop.</p></div>
+      <div class="card"><div class="card-icon">📋</div><h3>ABC &amp; BIP Forms</h3><p>Standardized observation forms and a complete BIP template grounded in FBA findings.</p></div>
+      <div class="card"><div class="card-icon">👦</div><h3>Case Studies</h3><p>Four evidence-based practice scenarios for hands-on ABC analysis and hypothesis formation.</p></div>
+      <div class="card"><div class="card-icon">🎬</div><h3>Video Resources</h3><p>Curated learning series aligned with all three workshop days and key FBA concepts.</p></div>
+      <div class="card"><div class="card-icon">✉️</div><h3>Official Letters</h3><p>Invitation and informed consent forms for future researchers.</p></div>
+    </div>
+
+    <h3 style="font-family:'Playfair Display',serif;color:var(--blue-dark);margin:48px 0 20px;font-size:1.4rem;">Researcher Recommendations: Suggested Additions</h3>
+    <p style="color:var(--text-muted);margin-bottom:24px;">Based on the study's qualitative and quantitative findings, the researchers recommend the following additions for future iterations of this toolkit.</p>
+    <div class="card-grid">
+      <div class="card"><div class="card-icon">📊</div><h3>Frequency/Duration Tally Sheet</h3><p>A dedicated data recording form for event, duration, and interval recording — the three core methods referenced in Day 2 but lacking a standalone template in the current toolkit.</p><span class="card-badge">Missing Tool</span></div>
+      <div class="card"><div class="card-icon">🗣️</div><h3>FGD / Interview Guide for FBA</h3><p>A structured teacher-parent-therapist interview protocol to gather background information before direct observation — critical for multi-functional behaviors.</p><span class="card-badge">Recommended Add</span></div>
+      <div class="card"><div class="card-icon">📈</div><h3>Progress Monitoring Chart</h3><p>A visual graph template to track behavior frequency before and after BIP implementation — supports the finding that FBA must be an ongoing, dynamic process.</p><span class="card-badge">Research-Backed</span></div>
+      <div class="card"><div class="card-icon">🤝</div><h3>Collaboration Log</h3><p>A structured communication record between stakeholders — directly addresses the collaborative challenges identified in qualitative findings.</p><span class="card-badge">Gap Identified</span></div>
+      <div class="card"><div class="card-icon">🧠</div><h3>Behavior Function Identification Checklist</h3><p>A structured checklist (Attention / Escape / Sensory / Tangible) to help pre-service teachers systematically identify behavioral function — addresses multi-functional behavior challenges found in the FGDs.</p><span class="card-badge">Practical Need</span></div>
+      <div class="card"><div class="card-icon">📖</div><h3>Glossary of FBA Terms</h3><p>A clear, accessible glossary defining FBA, ABC model, BIP, hypothesis statement, replacement behavior, and function of behavior — supports cognitive accessibility for new learners.</p><span class="card-badge">Accessibility</span></div>
+      <div class="card"><div class="card-icon">🏫</div><h3>Setting-Specific FBA Adaptations</h3><p>Separate one-pagers for applying FBA in SPED classrooms, inclusive classrooms, and home settings — aligned directly with Day 3 objectives.</p><span class="card-badge">Day 3 Support</span></div>
+      <div class="card"><div class="card-icon">✅</div><h3>Workshop Evaluation Form</h3><p>A post-workshop feedback form measuring participant satisfaction, perceived learning gain, and content relevance — essential for research validity.</p><span class="card-badge">Research Quality</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKSHOP -->
+<section id="workshop">
+  <div class="section-inner">
+    <div class="section-label">3-Day Program Matrix</div>
+    <h2 class="section-title">FBA Workshop Program Matrix</h2>
+    <p class="section-sub">A structured three-day learning journey progressing from FBA foundations through data collection to intervention planning and application.</p>
+    <div class="divider"></div>
+
+    <!-- Day summary cards -->
+    <div class="day-cards">
+      <div class="day-card day-card-1">
+        <div class="dc-num">1</div>
+        <p class="dc-label">Day 1</p>
+        <h3>Introduction to FBA</h3>
+        <p>Foundations, the ABC model, and defining observable behaviors</p>
+      </div>
+      <div class="day-card day-card-2">
+        <div class="dc-num">2</div>
+        <p class="dc-label">Day 2</p>
+        <h3>Technical &amp; Analytical Skills</h3>
+        <p>Data collection, ABC charting, and behavior function identification</p>
+      </div>
+      <div class="day-card day-card-3">
+        <div class="dc-num">3</div>
+        <p class="dc-label">Day 3</p>
+        <h3>FBA Application &amp; Intervention Planning</h3>
+        <p>BIP development, cross-setting application, and presentations</p>
+      </div>
+    </div>
+
+    <!-- MATRIX TABLE -->
+    <div class="matrix-wrapper">
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th class="col-header" style="width:100px;">
+              <span style="font-size:0.72rem;letter-spacing:.08em;">TIME</span>
+            </th>
+            <th class="col-header">
+              <span class="day-num-big">Day 1</span>
+              Introduction to FBA
+              <span class="day-sub">Foundations &amp; ABC Model</span>
+            </th>
+            <th class="col-header">
+              <span class="day-num-big">Day 2</span>
+              Technical &amp; Analytical Skills
+              <span class="day-sub">Data Collection &amp; Function ID</span>
+            </th>
+            <th class="col-header">
+              <span class="day-num-big">Day 3</span>
+              Application &amp; Intervention
+              <span class="day-sub">BIP Development &amp; Presentations</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- 8:30–9:00 -->
+          <tr>
+            <td class="time-col">8:30<br>–<br>9:00 AM</td>
+            <td class="act-cell">
+              <span class="act-pill pill-lecture">Assessment</span>
+              <div class="act-title">Registration &amp; Pre-Test</div>
+              <div class="act-desc">FBA Awareness and Skills Assessment — assesses prior knowledge to tailor workshop delivery.</div>
+            </td>
+            <td class="act-cell">
+              <span class="act-pill pill-group">Review</span>
+              <div class="act-title">Review of Day 1 &amp; Icebreaker</div>
+              <div class="act-desc">Reinforce Day 1 concepts and energize participants for advanced tasks.</div>
+            </td>
+            <td class="act-cell">
+              <span class="act-pill pill-group">Energizer</span>
+              <div class="act-title">Energizer &amp; Review</div>
+              <div class="act-desc">Reinforce prior learning and build readiness for application tasks.</div>
+            </td>
+          </tr>
+
+          <!-- 9:00–10:30 -->
+          <tr>
+            <td class="time-col">9:00<br>–<br>10:30 AM</td>
+            <td class="act-cell">
+              <span class="act-pill pill-lecture">Lecture</span>
+              <div class="act-title">Opening Program &amp; Workshop Overview <span class="act-time-note">(9:00–9:30)</span></div>
+              <div class="act-desc" style="margin-bottom:10px;">Orient participants on goals, expectations, and the three-day structure.</div>
+              <span class="act-pill pill-lecture">Lecture</span>
+              <div class="act-title">Purpose, Importance &amp; Overview of FBA <span class="act-time-note">(9:30–10:30)</span></div>
+              <div class="act-desc">Introduction to FBA in inclusive education — definition, goals, and role in supporting learners with diverse needs.</div>
+            </td>
+            <td class="act-cell">
+              <span class="act-pill pill-demo">Lecture-Demo</span>
+              <div class="act-title">Data Collection Methods</div>
+              <div class="act-desc">Demonstrate event recording, duration recording, interval recording, and anecdotal recording.</div>
+            </td>
+            <td class="act-cell">
+              <span class="act-pill pill-lecture">Lecture</span>
+              <div class="act-title">Developing Behavior Intervention Plans (BIPs)</div>
+              <div class="act-desc">Components and structure of an effective BIP grounded in FBA results and behavioral function.</div>
+            </td>
+          </tr>
+
+          <!-- Morning Break -->
+          <tr class="break-row">
+            <td class="time-col" style="font-style:normal;font-weight:700;font-size:0.72rem;color:var(--text-muted);">10:30<br>–<br>10:45 AM</td>
+            <td colspan="3">☕ Morning Break</td>
+          </tr>
+
+          <!-- 10:45–12:00 -->
+          <tr>
+            <td class="time-col">10:45 AM<br>–<br>12:00 PM</td>
+            <td class="act-cell">
+              <span class="act-pill pill-lecture">Lecture-Workshop</span>
+              <div class="act-title">Step-by-Step Process of FBA</div>
+              <div class="act-desc">Participants sequence and describe the complete FBA process.</div>
+            </td>
+            <td class="act-cell">
+              <span class="act-pill pill-hands">Hands-On</span>
+              <div class="act-title">ABC Charting Using Case Studies</div>
+              <div class="act-desc">Apply ABC recording on structured case studies using official forms.</div>
+            </td>
+            <td class="act-cell">
+              <span class="act-pill pill-hands">Workshop</span>
+              <div class="act-title">Designing BIPs (Guided Practice)</div>
+              <div class="act-desc">Guided creation of intervention plans using provided case data.</div>
+            </td>
+          </tr>
+
+          <!-- Lunch -->
+          <tr class="break-row">
+            <td class="time-col" style="font-style:normal;font-weight:700;font-size:0.72rem;color:var(--text-muted);">12:00<br>–<br>1:00 PM</td>
+            <td colspan="3">🍽 Lunch Break</td>
+          </tr>
+
+          <!-- 1:00–2:30 -->
+          <tr>
+            <td class="time-col">1:00<br>–<br>2:30 PM</td>
+            <td class="act-cell">
+              <span class="act-pill pill-group">Small Group</span>
+              <div class="act-title">Defining Problem Behaviors</div>
+              <div class="act-desc">Practice writing observable and measurable behavior statements in small groups.</div>
+            </td>
+            <td class="act-cell">
+              <span class="act-pill pill-sim">Simulation</span>
+              <div class="act-title">Role-Playing Behavioral Observation</div>
+              <div class="act-desc">Simulate real classroom situations — practice observation and documentation accuracy.</div>
+            </td>
+            <td class="act-cell">
+              <span class="act-pill pill-sim">Case Analysis</span>
+              <div class="act-title">SPED, Inclusive &amp; Home Settings</div>
+              <div class="act-desc">Apply FBA principles in real-life classroom and home-based scenarios across settings.</div>
+            </td>
+          </tr>
+
+          <!-- Afternoon Break -->
+          <tr class="break-row">
+            <td class="time-col" style="font-style:normal;font-weight:700;font-size:0.72rem;color:var(--text-muted);">2:30<br>–<br>2:45 PM</td>
+            <td colspan="3">☕ Afternoon Break</td>
+          </tr>
+
+          <!-- 2:45–4:00 -->
+          <tr>
+            <td class="time-col">2:45<br>–<br>4:00 PM</td>
+            <td class="act-cell">
+              <span class="act-pill pill-hands">Guided Practice</span>
+              <div class="act-title">Introduction to the ABC Model</div>
+              <div class="act-desc">Identify antecedents, behaviors, and consequences using sample classroom scenarios.</div>
+            </td>
+            <td class="act-cell">
+              <span class="act-pill pill-group">Group Work</span>
+              <div class="act-title">Identifying Behavior Functions &amp; Triggers</div>
+              <div class="act-desc">Analyze behavioral data and determine possible functions (attention, escape, sensory, tangible).</div>
+            </td>
+            <td class="act-cell">
+              <span class="act-pill pill-sim">Presentation</span>
+              <div class="act-title">Group Presentation: FBA Results &amp; Intervention Plans <span class="act-time-note">(2:45–3:30)</span></div>
+              <div class="act-desc" style="margin-bottom:10px;">Present and justify FBA findings and proposed BIPs to the group.</div>
+              <span class="act-pill pill-lecture">Assessment</span>
+              <div class="act-title">Post-Test &amp; Workshop Evaluation <span class="act-time-note">(3:30–4:00)</span></div>
+              <div class="act-desc">Measure learning gains, collect participant feedback, identify areas for improvement.</div>
+            </td>
+          </tr>
+
+          <!-- 4:00–4:30 -->
+          <tr>
+            <td class="time-col">4:00<br>–<br>4:30 PM</td>
+            <td class="act-cell">
+              <span class="act-pill pill-synth">Synthesis</span>
+              <div class="act-title">Synthesis &amp; Reflection</div>
+              <div class="act-desc">Consolidate learning and connect Day 1 concepts to classroom practice.</div>
+            </td>
+            <td class="act-cell">
+              <span class="act-pill pill-synth">Synthesis</span>
+              <div class="act-title">Synthesis &amp; Reflection</div>
+              <div class="act-desc">Evaluate challenges encountered and reinforce analytical thinking skills.</div>
+            </td>
+            <td class="act-cell">
+              <span class="act-pill pill-close">Closing</span>
+              <div class="act-title">Closing Program &amp; Certificate Distribution</div>
+              <div class="act-desc">Recognize participants' completion and summarize key takeaways.</div>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Legend -->
+    <div class="matrix-legend">
+      <span class="leg-label">Activity Types:</span>
+      <span class="act-pill pill-lecture" style="margin-bottom:0;">Lecture / Assessment</span>
+      <span class="act-pill pill-group" style="margin-bottom:0;">Group / Discussion</span>
+      <span class="act-pill pill-hands" style="margin-bottom:0;">Hands-On / Workshop</span>
+      <span class="act-pill pill-sim" style="margin-bottom:0;">Simulation / Presentation</span>
+      <span class="act-pill pill-demo" style="margin-bottom:0;">Lecture-Demo</span>
+      <span class="act-pill pill-synth" style="margin-bottom:0;">Synthesis / Reflection</span>
+      <span class="act-pill pill-close" style="margin-bottom:0;">Closing</span>
+    </div>
+  </div>
+</section>
+
+<!-- PRACTICAL SKILLS -->
+<section id="practical">
+  <div class="section-inner">
+    <div class="section-label">Evidence-Based Practice</div>
+    <h2 class="section-title">Practical Skills for FBA Implementation</h2>
+    <p class="section-sub">Research identified that pre-service teachers struggle most with writing operationally defined, measurable behavior descriptions and translating FBA findings into effective BIPs. These exercises directly target those gaps.</p>
+    <div class="divider"></div>
+
+    <!-- Skill 1 -->
+    <div class="skill-block">
+      <h3>Skill 1: Defining Behaviors in Observable and Measurable Terms</h3>
+      <p>A critical first step in any FBA is operationally defining the target behavior — describing it in objective, observable, and measurable language that any observer can reliably identify and record. Vague language (e.g., "aggressive," "non-compliant") must be replaced with precise behavioral descriptions (Cooper et al., 2020).</p>
+      <ul class="skill-steps">
+        <li><strong>Step 1 — Identify the behavior of concern.</strong> Write down the behavior in plain language (e.g., "hits classmates," "refuses tasks").</li>
+        <li><strong>Step 2 — Apply the Dead Man's Test.</strong> If a dead person could do it (e.g., "sits quietly"), it is not a behavior — revise so it describes active, observable action.</li>
+        <li><strong>Step 3 — Include topography, not interpretation.</strong> Describe what the behavior looks, sounds, or feels like without inferred motivation. Instead of "gets angry," write "raises voice above 75 dB, pushes materials off desk."</li>
+        <li><strong>Step 4 — Ensure measurability.</strong> The definition should enable consistent frequency, duration, or intensity measurement across observers.</li>
+        <li><strong>Step 5 — Pilot-test inter-observer agreement.</strong> Two observers independently record the behavior using your definition. Aim for ≥80% agreement (Cooper et al., 2020).</li>
+      </ul>
+      <div class="practice-box">
+        <h4>Practice Exercise</h4>
+        <p>Read the vague description below, then rewrite it as an operational definition in the field provided.</p>
+        <p><strong style="color:var(--gold);">Vague:</strong> "Carlos is aggressive during group work."</p>
+        <div class="form-group" style="margin-top:10px;">
+          <label>Your Operational Definition</label>
+          <textarea placeholder="During group work activities, Carlos..."></textarea>
+        </div>
+        <div style="margin-top:10px;padding:12px 16px;background:rgba(245,197,24,0.07);border:1px solid var(--border-light);border-radius:7px;">
+          <strong style="color:var(--gold);font-size:0.85rem;">Model Answer:</strong>
+          <p style="color:var(--text-mid);font-size:0.88rem;margin-top:4px;">During group work activities lasting more than 5 minutes, Carlos physically strikes peers with an open or closed hand at least once per session (frequency count), and verbally shouts at volume audible across the classroom (duration recording).</p>
+        </div>
+      </div>
+      <p class="skill-citation">Cooper, J. O., Heron, T. E., &amp; Heward, W. L. (2020). <em>Applied behavior analysis</em> (3rd ed.). Pearson. | IRIS Center. (2024). <em>FBA (elementary): Identifying the reasons for student behavior.</em> Vanderbilt University. <a href="https://iris.peabody.vanderbilt.edu/module/fba-elem/cresource/q2/p03/#content" target="_blank" style="color:var(--gold);">https://iris.peabody.vanderbilt.edu/module/fba-elem/cresource/q2/p03/#content</a></p>
+    </div>
+
+    <!-- Skill 2 -->
+    <div class="skill-block">
+      <h3>Skill 2: Conducting Indirect Assessments (Interviews &amp; Rating Scales)</h3>
+      <p>Indirect assessments gather information about a behavior from people who know the student well — teachers, parents, and the student themselves. These tools help generate initial hypotheses before direct observation begins (O'Neill et al., 2015).</p>
+      <ul class="skill-steps">
+        <li><strong>Step 1 — Select the appropriate tool.</strong> Common indirect assessment tools include the Functional Assessment Interview (FAI), the Motivation Assessment Scale (MAS), and structured teacher rating forms.</li>
+        <li><strong>Step 2 — Interview key informants.</strong> Ask about setting events, antecedents, behavior topography, maintaining consequences, and previous interventions.</li>
+        <li><strong>Step 3 — Triangulate data across informants.</strong> Compare responses from teachers, parents, and (where appropriate) the student to identify consistent patterns.</li>
+        <li><strong>Step 4 — Generate a preliminary hypothesis.</strong> Based on interview data, draft a tentative function (attention, escape, sensory, tangible) before moving to direct observation.</li>
+      </ul>
+      <p class="skill-citation">O'Neill, R. E., Albin, R. W., Storey, K., Horner, R. H., &amp; Sprague, J. R. (2015). <em>Functional assessment and program development</em> (3rd ed.). Cengage. | IRIS Center. (2024). <em>Indirect assessments.</em> Vanderbilt University. <a href="https://iris.peabody.vanderbilt.edu/module/fba-elem/cresource/q2/p05/#content" target="_blank" style="color:var(--gold);">https://iris.peabody.vanderbilt.edu/module/fba-elem/cresource/q2/p05/#content</a></p>
+    </div>
+
+    <!-- Skill 3 -->
+    <div class="skill-block">
+      <h3>Skill 3: Conducting Descriptive Assessments (ABC Direct Observation)</h3>
+      <p>Descriptive assessments involve direct, systematic observation of the student in natural settings. Observers record antecedents, behaviors, and consequences in real time using structured forms, allowing identification of conditional probabilities (patterns between triggers and outcomes) (Umbreit et al., 2007).</p>
+      <ul class="skill-steps">
+        <li><strong>Step 1 — Prepare your ABC form.</strong> Use the standardized form in the ABC &amp; BIP Forms section of this toolkit. Ensure the target behavior is already operationally defined (see Skill 1).</li>
+        <li><strong>Step 2 — Conduct unobtrusive observation.</strong> Observe across multiple settings and times of day (minimum 3–5 sessions) to capture the full behavioral pattern.</li>
+        <li><strong>Step 3 — Record with specificity.</strong> Document exact antecedents (not interpretations), precise topography of behavior, and actual consequences — not assumed ones.</li>
+        <li><strong>Step 4 — Analyze for patterns.</strong> Identify recurring antecedents and consistent consequences across observations to determine the maintaining function.</li>
+        <li><strong>Step 5 — Calculate conditional probabilities.</strong> What percentage of the time does consequence X follow behavior Y? Higher percentages suggest a functionally related consequence.</li>
+      </ul>
+      <p class="skill-citation">Umbreit, J., Ferro, J., Liaupsin, C., &amp; Lane, K. (2007). <em>Functional behavioral assessment and function-based intervention.</em> Pearson. | IRIS Center. (2024). <em>Descriptive assessments.</em> Vanderbilt University. <a href="https://iris.peabody.vanderbilt.edu/module/fba-elem/cresource/q2/p06/#content" target="_blank" style="color:var(--gold);">https://iris.peabody.vanderbilt.edu/module/fba-elem/cresource/q2/p06/#content</a></p>
+    </div>
+
+    <!-- Skill 4 -->
+    <div class="skill-block">
+      <h3>Skill 4: Writing Hypothesis Statements</h3>
+      <p>A hypothesis statement integrates FBA data into a testable prediction that links antecedents, the target behavior, and its maintaining function. It is the foundation upon which the BIP is built (Crone et al., 2015).</p>
+      <ul class="skill-steps">
+        <li><strong>Step 1 — Use the three-part format.</strong> A complete hypothesis states: (1) the triggering antecedent condition, (2) the operationally defined target behavior, and (3) the maintaining consequence/function.</li>
+        <li><strong>Step 2 — Template.</strong> "When [antecedent/setting event], [student name] engages in [target behavior defined in measurable terms] in order to [function: obtain/escape/avoid/communicate]."</li>
+        <li><strong>Step 3 — Ground it in data.</strong> Every part of the hypothesis must be directly supported by your ABC observations — not assumptions.</li>
+        <li><strong>Step 4 — Verify with a structural or functional analysis if needed.</strong> Systematic manipulation of conditions can confirm the hypothesized function before BIP development.</li>
+      </ul>
+      <div class="practice-box">
+        <h4>Practice Exercise</h4>
+        <p>Using the ABC data below, write a complete hypothesis statement.</p>
+        <p><strong style="color:var(--gold);">ABC Summary:</strong> During independent seatwork, Ana repeatedly puts her head on the desk and covers her ears (3 out of 4 sessions observed). Each time, the teacher removes the worksheet and offers a sensory break.</p>
+        <div class="form-group" style="margin-top:10px;">
+          <label>Your Hypothesis Statement</label>
+          <textarea placeholder="When... Ana engages in... in order to..."></textarea>
+        </div>
+        <div style="margin-top:10px;padding:12px 16px;background:rgba(245,197,24,0.07);border:1px solid var(--border-light);border-radius:7px;">
+          <strong style="color:var(--gold);font-size:0.85rem;">Model Answer:</strong>
+          <p style="color:var(--text-mid);font-size:0.88rem;margin-top:4px;">When presented with independent written seatwork in a busy classroom, Ana places her head on the desk and covers her ears (observed during 75% of seatwork periods) in order to escape/avoid the demanding academic task and/or overwhelming sensory stimulation.</p>
+        </div>
+      </div>
+      <p class="skill-citation">Crone, D. A., Hawken, L. S., &amp; Horner, R. H. (2015). <em>Building positive behavior support systems in schools</em> (2nd ed.). Guilford Press. | IRIS Center. (2024). <em>Hypothesis statements.</em> Vanderbilt University. <a href="https://iris.peabody.vanderbilt.edu/module/fba-elem/cresource/q2/p07/#content" target="_blank" style="color:var(--gold);">https://iris.peabody.vanderbilt.edu/module/fba-elem/cresource/q2/p07/#content</a></p>
+    </div>
+
+    <!-- Skill 5 -->
+    <div class="skill-block">
+      <h3>Skill 5: Developing a Behavior Intervention Plan (BIP)</h3>
+      <p>A BIP translates the FBA hypothesis into a structured, individualized plan that addresses both the function of the behavior and the instruction of a socially appropriate replacement behavior. Effective BIPs are function-based and include antecedent modifications, skill instruction, and consequence strategies (Crone et al., 2015).</p>
+      <ul class="skill-steps">
+        <li><strong>Step 1 — Confirm behavioral function.</strong> Revisit the FBA hypothesis. Every BIP element must align with the confirmed function (attention, escape, sensory, or tangible).</li>
+        <li><strong>Step 2 — Identify a functionally equivalent replacement behavior (FERB).</strong> The replacement behavior must access the same function as the problem behavior — only more efficiently and socially acceptably (e.g., requesting a break card instead of throwing materials to escape a task).</li>
+        <li><strong>Step 3 — Plan antecedent modifications.</strong> Alter conditions that trigger the behavior: modify task difficulty, adjust seating, provide advance warning of transitions, or incorporate student preference.</li>
+        <li><strong>Step 4 — Plan reinforcement for the FERB.</strong> The replacement behavior must be reinforced more richly and immediately than the problem behavior to ensure it "competes" successfully.</li>
+        <li><strong>Step 5 — Plan the response to the problem behavior.</strong> Specify how the team will respond when the target behavior occurs — typically extinction (withholding the maintaining consequence) plus safety protocols if needed.</li>
+        <li><strong>Step 6 — Design a progress monitoring system.</strong> Identify how and how often behavioral data will be collected to evaluate whether the BIP is working.</li>
+        <li><strong>Step 7 — Specify roles and review dates.</strong> Assign responsibilities to each team member and set a formal review date (typically 4–6 weeks after implementation).</li>
+      </ul>
+      <div class="practice-box">
+        <h4>Practice Exercise</h4>
+        <p>Using the hypothesis from Skill 4 (Ana, escape function), complete the prompts below to draft a brief BIP.</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Functionally Equivalent Replacement Behavior</label>
+            <textarea placeholder="Ana will..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Antecedent Modification</label>
+            <textarea placeholder="Before presenting independent seatwork..."></textarea>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Reinforcement Plan</label>
+            <textarea placeholder="When Ana uses the replacement behavior..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Response to Target Behavior</label>
+            <textarea placeholder="When Ana places her head down and covers ears..."></textarea>
+          </div>
+        </div>
+      </div>
+      <p class="skill-citation">Crone, D. A., Hawken, L. S., &amp; Horner, R. H. (2015). <em>Building positive behavior support systems in schools</em> (2nd ed.). Guilford Press. | IRIS Center. (2024). <em>BIP (elementary): Developing a behavior intervention plan.</em> Vanderbilt University. <a href="https://iris.peabody.vanderbilt.edu/module/bip-elem/cresource/q1/p01/" target="_blank" style="color:var(--gold);">https://iris.peabody.vanderbilt.edu/module/bip-elem/cresource/q1/p01/</a></p>
+    </div>
+
+    <!-- Skill 6: IRIS Links -->
+    <div class="skill-block">
+      <h3>Skill 6: Self-Directed Learning via the IRIS Center</h3>
+      <p>The IRIS Center at Vanderbilt University provides free, peer-reviewed, evidence-based modules for educators. The following resources were selected because they directly address the practical skill gaps identified in this study's FGD findings.</p>
+      <p style="color:var(--text-muted);font-size:0.88rem;margin-bottom:10px;"><strong style="color:var(--gold);">FBA Module Links (Functional Behavioral Assessment):</strong></p>
+      <ul class="iris-links">
+        <li><a href="https://iris.peabody.vanderbilt.edu/module/fba-elem/cresource/q2/p05/#content" target="_blank">Indirect Assessments — IRIS FBA Module, Page 5</a></li>
+        <li><a href="https://iris.peabody.vanderbilt.edu/module/fba-elem/cresource/q2/p06/#content" target="_blank">Descriptive Assessments — IRIS FBA Module, Page 6</a></li>
+        <li><a href="https://iris.peabody.vanderbilt.edu/module/fba-elem/cresource/q2/p07/#content" target="_blank">Hypothesis Statements — IRIS FBA Module, Page 7</a></li>
+      </ul>
+      <p style="color:var(--text-muted);font-size:0.88rem;margin:14px 0 10px;"><strong style="color:var(--gold);">BIP Module Links (Behavior Intervention Plan):</strong></p>
+      <ul class="iris-links">
+        <li><a href="https://iris.peabody.vanderbilt.edu/module/bip-elem/cresource/q1/p01/" target="_blank">Introduction to BIP Development — IRIS BIP Module, Page 1</a></li>
+        <li><a href="https://iris.peabody.vanderbilt.edu/module/bip-elem/cresource/q1/p05/#content" target="_blank">Antecedent Strategies — IRIS BIP Module, Page 5</a></li>
+        <li><a href="https://iris.peabody.vanderbilt.edu/module/bip-elem/cresource/q1/p06/#content" target="_blank">Teaching Replacement Behaviors — IRIS BIP Module, Page 6</a></li>
+        <li><a href="https://iris.peabody.vanderbilt.edu/module/bip-elem/cresource/q2/p09/#content" target="_blank">Monitoring BIP Progress — IRIS BIP Module, Page 9</a></li>
+      </ul>
+      <p class="skill-citation">IRIS Center. (2024). <em>Functional behavioral assessment (elementary): Identifying the reasons for student behavior.</em> Vanderbilt University. https://iris.peabody.vanderbilt.edu/module/fba-elem/ | IRIS Center. (2024). <em>BIP (elementary): Developing a behavior intervention plan.</em> Vanderbilt University. https://iris.peabody.vanderbilt.edu/module/bip-elem/</p>
+    </div>
+
+    <!-- Glossary -->
+    <h3 style="font-family:'Playfair Display',serif;color:var(--blue-dark);margin:48px 0 20px;font-size:1.4rem;">Glossary of FBA Terms</h3>
+    <div class="card">
+      <dl>
+        <div class="glossary-item"><dt>Functional Behavioral Assessment (FBA)</dt><dd>A systematic process for identifying the antecedents, consequences, and function of a challenging behavior in order to develop effective, individualized behavior support plans (Cooper et al., 2020).</dd></div>
+        <div class="glossary-item"><dt>ABC Model</dt><dd>A three-component framework — Antecedent (what happens before), Behavior (observable action), and Consequence (what happens after) — used to identify behavioral patterns and maintaining functions (Skinner, 1953, as cited in Cooper et al., 2020).</dd></div>
+        <div class="glossary-item"><dt>Operational Definition</dt><dd>A precise, observable, and measurable description of a behavior that enables consistent identification and recording across multiple observers (Cooper et al., 2020).</dd></div>
+        <div class="glossary-item"><dt>Hypothesis Statement</dt><dd>A data-based prediction that links a triggering antecedent condition, the operationally defined target behavior, and the maintaining consequence or behavioral function (Crone et al., 2015).</dd></div>
+        <div class="glossary-item"><dt>Behavior Intervention Plan (BIP)</dt><dd>A written, individualized plan derived from FBA findings that specifies antecedent modifications, replacement behavior instruction, reinforcement strategies, and progress monitoring procedures (IRIS Center, 2024).</dd></div>
+        <div class="glossary-item"><dt>Replacement Behavior</dt><dd>A socially appropriate behavior that serves the same function as the problem behavior and is therefore more efficient for accessing the desired consequence (Horner &amp; Day, 1991, as cited in Cooper et al., 2020).</dd></div>
+        <div class="glossary-item"><dt>Function of Behavior</dt><dd>The maintaining consequence that reinforces a behavior — most commonly categorized as attention, escape/avoidance, access to tangibles, or sensory stimulation (O'Neill et al., 2015).</dd></div>
+      </dl>
+    </div>
+
+  </div>
+</section>
+
+<!-- PRE/POST TEST -->
+<section id="pretest">
+  <div class="section-inner">
+    <div class="section-label">Pre/Post-Test Instrument</div>
+    <h2 class="section-title">FBA Awareness &amp; Skills Assessment</h2>
+    <p class="section-sub">Administer before and after the workshop to measure learning gains. Select your answer for each item, then submit to see your score.</p>
+    <div class="divider"></div>
+
+    <div id="quizForm">
+      <p style="color:var(--text-muted);font-weight:600;margin-bottom:20px;">Part I — FBA Awareness (Items 1–5)</p>
+
+      <div class="quiz-item">
+        <p>Item 1 — FBA stands for:</p>
+        <div class="quiz-opt"><input type="radio" name="q1" value="A" id="q1a"><label for="q1a">A. Functional Behavioral Analysis</label></div>
+        <div class="quiz-opt"><input type="radio" name="q1" value="B" id="q1b"><label for="q1b">B. Functional Behavior Assessment</label></div>
+        <div class="quiz-opt"><input type="radio" name="q1" value="C" id="q1c"><label for="q1c">C. Formal Behavior Approach</label></div>
+        <div class="quiz-opt"><input type="radio" name="q1" value="D" id="q1d"><label for="q1d">D. Fixed Behavior Assessment</label></div>
+        <div class="quiz-result" id="r1"></div>
+      </div>
+
+      <div class="quiz-item">
+        <p>Item 2 — The primary purpose of FBA is to:</p>
+        <div class="quiz-opt"><input type="radio" name="q2" value="A" id="q2a"><label for="q2a">A. Punish students with challenging behavior</label></div>
+        <div class="quiz-opt"><input type="radio" name="q2" value="B" id="q2b"><label for="q2b">B. Understand the function or reason behind a behavior</label></div>
+        <div class="quiz-opt"><input type="radio" name="q2" value="C" id="q2c"><label for="q2c">C. Create a behavior report for parents</label></div>
+        <div class="quiz-opt"><input type="radio" name="q2" value="D" id="q2d"><label for="q2d">D. Document student academic performance</label></div>
+        <div class="quiz-result" id="r2"></div>
+      </div>
+
+      <div class="quiz-item">
+        <p>Item 3 — Under Philippine law, which republic act mandates inclusive education for learners with disabilities?</p>
+        <div class="quiz-opt"><input type="radio" name="q3" value="A" id="q3a"><label for="q3a">A. RA 9155</label></div>
+        <div class="quiz-opt"><input type="radio" name="q3" value="B" id="q3b"><label for="q3b">B. RA 10533</label></div>
+        <div class="quiz-opt"><input type="radio" name="q3" value="C" id="q3c"><label for="q3c">C. RA 11650</label></div>
+        <div class="quiz-opt"><input type="radio" name="q3" value="D" id="q3d"><label for="q3d">D. RA 7277</label></div>
+        <div class="quiz-result" id="r3"></div>
+      </div>
+
+      <div class="quiz-item">
+        <p>Item 4 — Which of the following is NOT a common function of challenging behavior?</p>
+        <div class="quiz-opt"><input type="radio" name="q4" value="A" id="q4a"><label for="q4a">A. Attention-seeking</label></div>
+        <div class="quiz-opt"><input type="radio" name="q4" value="B" id="q4b"><label for="q4b">B. Escape/avoidance</label></div>
+        <div class="quiz-opt"><input type="radio" name="q4" value="C" id="q4c"><label for="q4c">C. Sensory stimulation</label></div>
+        <div class="quiz-opt"><input type="radio" name="q4" value="D" id="q4d"><label for="q4d">D. Academic motivation</label></div>
+        <div class="quiz-result" id="r4"></div>
+      </div>
+
+      <div class="quiz-item">
+        <p>Item 5 — An Antecedent in the ABC model refers to:</p>
+        <div class="quiz-opt"><input type="radio" name="q5" value="A" id="q5a"><label for="q5a">A. The behavior itself</label></div>
+        <div class="quiz-opt"><input type="radio" name="q5" value="B" id="q5b"><label for="q5b">B. What happens after the behavior</label></div>
+        <div class="quiz-opt"><input type="radio" name="q5" value="C" id="q5c"><label for="q5c">C. What triggers or precedes the behavior</label></div>
+        <div class="quiz-opt"><input type="radio" name="q5" value="D" id="q5d"><label for="q5d">D. The consequence of the behavior</label></div>
+        <div class="quiz-result" id="r5"></div>
+      </div>
+
+      <p style="color:var(--text-muted);font-weight:600;margin:28px 0 20px;">Part II — FBA Skills (Items 6–10)</p>
+
+      <div class="quiz-item">
+        <p>Item 6 — Which data collection method involves recording whether a behavior occurred during specified time intervals?</p>
+        <div class="quiz-opt"><input type="radio" name="q6" value="A" id="q6a"><label for="q6a">A. Event recording</label></div>
+        <div class="quiz-opt"><input type="radio" name="q6" value="B" id="q6b"><label for="q6b">B. Duration recording</label></div>
+        <div class="quiz-opt"><input type="radio" name="q6" value="C" id="q6c"><label for="q6c">C. Interval recording</label></div>
+        <div class="quiz-opt"><input type="radio" name="q6" value="D" id="q6d"><label for="q6d">D. Anecdotal recording</label></div>
+        <div class="quiz-result" id="r6"></div>
+      </div>
+
+      <div class="quiz-item">
+        <p>Item 7 — A Behavior Intervention Plan (BIP) should be based on:</p>
+        <div class="quiz-opt"><input type="radio" name="q7" value="A" id="q7a"><label for="q7a">A. Teacher's personal observations only</label></div>
+        <div class="quiz-opt"><input type="radio" name="q7" value="B" id="q7b"><label for="q7b">B. FBA findings and identified behavioral function</label></div>
+        <div class="quiz-opt"><input type="radio" name="q7" value="C" id="q7c"><label for="q7c">C. Student's academic records</label></div>
+        <div class="quiz-opt"><input type="radio" name="q7" value="D" id="q7d"><label for="q7d">D. Parent's preferences only</label></div>
+        <div class="quiz-result" id="r7"></div>
+      </div>
+
+      <div class="quiz-item">
+        <p>Item 8 — Which is an example of a replacement behavior strategy?</p>
+        <div class="quiz-opt"><input type="radio" name="q8" value="A" id="q8a"><label for="q8a">A. Ignoring all challenging behaviors</label></div>
+        <div class="quiz-opt"><input type="radio" name="q8" value="B" id="q8b"><label for="q8b">B. Teaching a student to request a break instead of acting out</label></div>
+        <div class="quiz-opt"><input type="radio" name="q8" value="C" id="q8c"><label for="q8c">C. Removing the student from the classroom</label></div>
+        <div class="quiz-opt"><input type="radio" name="q8" value="D" id="q8d"><label for="q8d">D. Increasing homework assignments</label></div>
+        <div class="quiz-result" id="r8"></div>
+      </div>
+
+      <div class="quiz-item">
+        <p>Item 9 — In conducting an FBA, who should ideally be part of the team?</p>
+        <div class="quiz-opt"><input type="radio" name="q9" value="A" id="q9a"><label for="q9a">A. The classroom teacher only</label></div>
+        <div class="quiz-opt"><input type="radio" name="q9" value="B" id="q9b"><label for="q9b">B. The school principal and parents</label></div>
+        <div class="quiz-opt"><input type="radio" name="q9" value="C" id="q9c"><label for="q9c">C. A multidisciplinary team including teachers, parents, and specialists</label></div>
+        <div class="quiz-opt"><input type="radio" name="q9" value="D" id="q9d"><label for="q9d">D. The school guidance counselor only</label></div>
+        <div class="quiz-result" id="r9"></div>
+      </div>
+
+      <div class="quiz-item">
+        <p>Item 10 — A Functional Behavior Assessment hypothesis statement should include:</p>
+        <div class="quiz-opt"><input type="radio" name="q10" value="A" id="q10a"><label for="q10a">A. Only the behavior description</label></div>
+        <div class="quiz-opt"><input type="radio" name="q10" value="B" id="q10b"><label for="q10b">B. The antecedent, behavior, and consequence (function)</label></div>
+        <div class="quiz-opt"><input type="radio" name="q10" value="C" id="q10c"><label for="q10c">C. The student's IQ and academic level</label></div>
+        <div class="quiz-opt"><input type="radio" name="q10" value="D" id="q10d"><label for="q10d">D. The teacher's recommended punishment</label></div>
+        <div class="quiz-result" id="r10"></div>
+      </div>
+
+      <p style="color:var(--text-muted);font-weight:600;margin:28px 0 20px;">Part III — Open-Ended Reflection</p>
+      <div class="card" style="margin-bottom:14px;">
+        <div class="form-group"><label>Reflection 1 — In your own words, what is FBA and why do you think it is important in inclusive education?</label><textarea style="min-height:100px;" placeholder="Write your response here..."></textarea></div>
+      </div>
+      <div class="card" style="margin-bottom:14px;">
+        <div class="form-group"><label>Reflection 2 — Describe a challenging behavior you have encountered in your classroom. What did you do to address it?</label><textarea style="min-height:100px;" placeholder="Write your response here..."></textarea></div>
+      </div>
+      <div class="card" style="margin-bottom:24px;">
+        <div class="form-group"><label>Reflection 3 — What do you hope to learn from this FBA Workshop?</label><textarea style="min-height:100px;" placeholder="Write your response here..."></textarea></div>
+      </div>
+
+      <button class="btn" onclick="submitQuiz()">Submit &amp; View Score</button>
+    </div>
+
+    <div class="score-box" id="scoreBox">
+      <div class="score" id="scoreNum">0/10</div>
+      <p id="scoreFeedback">Here is your result.</p>
+      <button class="btn btn-outline mt-16" onclick="resetQuiz()">Retake Quiz</button>
+    </div>
+  </div>
+</section>
+
+<!-- ABC & BIP FORMS -->
+<section id="forms">
+  <div class="section-inner">
+    <div class="section-label">Data Collection &amp; Intervention Planning</div>
+    <h2 class="section-title">ABC Observation Forms &amp; BIP Template</h2>
+    <p class="section-sub">Use the tabs below to access observation recording forms and the complete Behavior Intervention Plan template. Fill in digitally or access the editable Google Docs version below.</p>
+    <div class="divider"></div>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('abc-iris', this)">ABC Form (IRIS Center)</button>
+      <button class="tab-btn" onclick="switchTab('abc-ncpmi', this)">ABC Cards (NCPMI)</button>
+      <button class="tab-btn" onclick="switchTab('abc-interval', this)">Interval Recording</button>
+      <button class="tab-btn" onclick="switchTab('abc-freq', this)">Frequency &amp; Duration</button>
+      <button class="tab-btn" onclick="switchTab('bip', this)">BIP Template</button>
+    </div>
+
+    <!-- ABC IRIS -->
+    <div class="tab-panel active" id="tab-abc-iris">
+      <div class="card">
+        <h3 style="font-family:'Playfair Display',serif;color:var(--gold);margin-bottom:6px;">ABC Observation Form</h3>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:20px;">IRIS Center · Vanderbilt</p>
+        <div class="form-row">
+          <div class="form-group"><label>Student Name</label><input type="text" /></div>
+          <div class="form-group"><label>Date</label><input type="date" /></div>
+          <div class="form-group"><label>Setting / Teacher</label><input type="text" /></div>
+          <div class="form-group"><label>Observer</label><input type="text" /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Instructional Activity</label><input type="text" /></div>
+          <div class="form-group"><label>Target Behavior</label><input type="text" /></div>
+        </div>
+        <table>
+          <thead><tr><th>Time</th><th>Antecedent (What happened before?)</th><th>Behavior (What did the student do?)</th><th>Consequence (What happened after?)</th></tr></thead>
+          <tbody>
+            <tr><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td></tr>
+            <tr><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td></tr>
+            <tr><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td></tr>
+            <tr><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td></tr>
+            <tr><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td></tr>
+            <tr><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-top:14px;font-style:italic;">IRIS Center. (2024). <em>ABC observation form.</em> Vanderbilt University. https://iris.peabody.vanderbilt.edu/module/fba-elem/</p>
+
+        <!-- Google Docs link -->
+        <div class="gdocs-link-box">
+          <div class="gdocs-icon">📄</div>
+          <div class="gdocs-text">
+            <strong>Access the Editable Version on Google Docs</strong>
+            <p>Open the fillable, printable version of all ABC &amp; BIP forms in Google Docs. Make a copy to save your own editable version.</p>
+          </div>
+          <a href="https://docs.google.com/document/d/1QisZKkPwbAmjzz1qtKa5FW9lzGT6bB6UJ1k3nnHOEi0/edit?usp=sharing" target="_blank" class="btn btn-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 48 48" fill="none" style="flex-shrink:0"><rect width="48" height="48" rx="6" fill="#4285F4"/><path d="M14 34h20v-2H14v2zm0-6h20v-2H14v2zm0-6h12v-2H14v2zm-2-12v28a2 2 0 002 2h20a2 2 0 002-2V16l-8-8H14a2 2 0 00-2 2z" fill="white"/><path d="M30 16l6 6h-6v-6z" fill="#c6d5f7"/></svg>
+            Open in Google Docs
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABC NCPMI -->
+    <div class="tab-panel" id="tab-abc-ncpmi">
+      <div class="card">
+        <h3 style="font-family:'Playfair Display',serif;color:var(--gold);margin-bottom:6px;">ABC Observation Cards</h3>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:20px;">NCPMI · ChallengingBehavior.org — Compact observation cards ideal for quick data collection during classroom observation.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <div class="card" style="background:var(--blue-pale);">
+            <div class="form-row"><div class="form-group"><label>Child's Name</label><input type="text" /></div><div class="form-group"><label>Date</label><input type="date" /></div></div>
+            <div class="form-row"><div class="form-group"><label>Observer</label><input type="text" /></div><div class="form-group"><label>Activity</label><input type="text" /></div></div>
+            <div class="form-group" style="margin-bottom:10px;"><label>Function (Hypothesis)</label><input type="text" /></div>
+            <table><thead><tr><th>Antecedent</th><th>Behavior</th><th>Consequence</th></tr></thead><tbody><tr><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td></tr></tbody></table>
+          </div>
+          <div class="card" style="background:var(--blue-pale);">
+            <div class="form-row"><div class="form-group"><label>Child's Name</label><input type="text" /></div><div class="form-group"><label>Date</label><input type="date" /></div></div>
+            <div class="form-row"><div class="form-group"><label>Observer</label><input type="text" /></div><div class="form-group"><label>Activity</label><input type="text" /></div></div>
+            <div class="form-group" style="margin-bottom:10px;"><label>Function (Hypothesis)</label><input type="text" /></div>
+            <table><thead><tr><th>Antecedent</th><th>Behavior</th><th>Consequence</th></tr></thead><tbody><tr><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td></tr></tbody></table>
+          </div>
+        </div>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-top:14px;font-style:italic;">National Center for Pyramid Model Innovations [NCPMI]. (2021). <em>ABC observation cards.</em> ChallengingBehavior.org.</p>
+
+        <div class="gdocs-link-box">
+          <div class="gdocs-icon">📄</div>
+          <div class="gdocs-text">
+            <strong>Access the Editable Version on Google Docs</strong>
+            <p>Open the fillable, printable version of all ABC &amp; BIP forms in Google Docs. Make a copy to save your own editable version.</p>
+          </div>
+          <a href="https://docs.google.com/document/d/1QisZKkPwbAmjzz1qtKa5FW9lzGT6bB6UJ1k3nnHOEi0/edit?usp=sharing" target="_blank" class="btn btn-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 48 48" fill="none" style="flex-shrink:0"><rect width="48" height="48" rx="6" fill="#4285F4"/><path d="M14 34h20v-2H14v2zm0-6h20v-2H14v2zm0-6h12v-2H14v2zm-2-12v28a2 2 0 002 2h20a2 2 0 002-2V16l-8-8H14a2 2 0 00-2 2z" fill="white"/><path d="M30 16l6 6h-6v-6z" fill="#c6d5f7"/></svg>
+            Open in Google Docs
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interval Recording -->
+    <div class="tab-panel" id="tab-abc-interval">
+      <div class="card">
+        <h3 style="font-family:'Playfair Display',serif;color:var(--gold);margin-bottom:6px;">Interval Recording Sheet</h3>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:20px;">Researcher-Crafted</p>
+        <div class="form-row">
+          <div class="form-group"><label>Student Name</label><input type="text" /></div>
+          <div class="form-group"><label>Date</label><input type="date" /></div>
+          <div class="form-group"><label>Observer</label><input type="text" /></div>
+          <div class="form-group"><label>Interval Length</label><input type="text" placeholder="e.g., 5 minutes" /></div>
+        </div>
+        <div class="form-group" style="margin-bottom:16px;"><label>Target Behavior (observable definition)</label><textarea></textarea></div>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:10px;">Mark each interval: ✓ = Behavior occurred | — = Behavior did NOT occur</p>
+        <table>
+          <thead><tr><th>Interval</th><th>Occurred? (✓/—)</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><input type="text" /></td><td><input type="text" /></td></tr>
+            <tr><td>2</td><td><input type="text" /></td><td><input type="text" /></td></tr>
+            <tr><td>3</td><td><input type="text" /></td><td><input type="text" /></td></tr>
+            <tr><td>4</td><td><input type="text" /></td><td><input type="text" /></td></tr>
+            <tr><td>5</td><td><input type="text" /></td><td><input type="text" /></td></tr>
+            <tr><td>6</td><td><input type="text" /></td><td><input type="text" /></td></tr>
+            <tr><td>7</td><td><input type="text" /></td><td><input type="text" /></td></tr>
+            <tr><td>8</td><td><input type="text" /></td><td><input type="text" /></td></tr>
+            <tr><td>9</td><td><input type="text" /></td><td><input type="text" /></td></tr>
+            <tr><td>10</td><td><input type="text" /></td><td><input type="text" /></td></tr>
+          </tbody>
+        </table>
+        <p style="color:var(--text-muted);font-size:0.85rem;margin-top:10px;">Total intervals observed: ___ | Intervals with behavior: ___ | Percentage: ___%</p>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-top:14px;font-style:italic;">Researcher-crafted form (Group 6, BSNEd 4.1, National Teachers College, 2025–2026). Developed to support Day 2 data collection activities.</p>
+
+        <div class="gdocs-link-box">
+          <div class="gdocs-icon">📄</div>
+          <div class="gdocs-text">
+            <strong>Access the Editable Version on Google Docs</strong>
+            <p>Open the fillable, printable version of all ABC &amp; BIP forms in Google Docs. Make a copy to save your own editable version.</p>
+          </div>
+          <a href="https://docs.google.com/document/d/1QisZKkPwbAmjzz1qtKa5FW9lzGT6bB6UJ1k3nnHOEi0/edit?usp=sharing" target="_blank" class="btn btn-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 48 48" fill="none" style="flex-shrink:0"><rect width="48" height="48" rx="6" fill="#4285F4"/><path d="M14 34h20v-2H14v2zm0-6h20v-2H14v2zm0-6h12v-2H14v2zm-2-12v28a2 2 0 002 2h20a2 2 0 002-2V16l-8-8H14a2 2 0 00-2 2z" fill="white"/><path d="M30 16l6 6h-6v-6z" fill="#c6d5f7"/></svg>
+            Open in Google Docs
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Frequency & Duration -->
+    <div class="tab-panel" id="tab-abc-freq">
+      <div class="card">
+        <h3 style="font-family:'Playfair Display',serif;color:var(--gold);margin-bottom:6px;">Frequency &amp; Duration Tally Sheet</h3>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:20px;">Researcher-Crafted</p>
+        <div class="form-row">
+          <div class="form-group"><label>Student Name</label><input type="text" /></div>
+          <div class="form-group"><label>Date</label><input type="date" /></div>
+          <div class="form-group"><label>Setting</label><input type="text" /></div>
+          <div class="form-group"><label>Total Observation Time</label><input type="text" /></div>
+        </div>
+        <div class="form-group" style="margin-bottom:16px;"><label>Target Behavior</label><textarea></textarea></div>
+        <table>
+          <thead><tr><th>#</th><th>Time Started</th><th>Time Ended</th><th>Duration</th><th>Tally Mark</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td></tr>
+            <tr><td>2</td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td></tr>
+            <tr><td>3</td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td></tr>
+            <tr><td>4</td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td></tr>
+            <tr><td>5</td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td></tr>
+            <tr><td>6</td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td></tr>
+            <tr><td colspan="2"><strong style="color:var(--gold);">Total Frequency:</strong></td><td colspan="2"><strong style="color:var(--gold);">Total Duration:</strong></td><td></td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-top:14px;font-style:italic;">Researcher-crafted form (Group 6, BSNEd 4.1, National Teachers College, 2025–2026). Developed to support event and duration recording methods.</p>
+
+        <div class="gdocs-link-box">
+          <div class="gdocs-icon">📄</div>
+          <div class="gdocs-text">
+            <strong>Access the Editable Version on Google Docs</strong>
+            <p>Open the fillable, printable version of all ABC &amp; BIP forms in Google Docs. Make a copy to save your own editable version.</p>
+          </div>
+          <a href="https://docs.google.com/document/d/1QisZKkPwbAmjzz1qtKa5FW9lzGT6bB6UJ1k3nnHOEi0/edit?usp=sharing" target="_blank" class="btn btn-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 48 48" fill="none" style="flex-shrink:0"><rect width="48" height="48" rx="6" fill="#4285F4"/><path d="M14 34h20v-2H14v2zm0-6h20v-2H14v2zm0-6h12v-2H14v2zm-2-12v28a2 2 0 002 2h20a2 2 0 002-2V16l-8-8H14a2 2 0 00-2 2z" fill="white"/><path d="M30 16l6 6h-6v-6z" fill="#c6d5f7"/></svg>
+            Open in Google Docs
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- BIP TEMPLATE -->
+    <div class="tab-panel" id="tab-bip">
+      <div class="card">
+        <h3 style="font-family:'Playfair Display',serif;color:var(--gold);margin-bottom:6px;">Behavior Intervention Plan (BIP) Template</h3>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:20px;">Based on Functional Behavioral Assessment (FBA) Results · Researcher-Crafted Template</p>
+
+        <p style="color:var(--gold);font-weight:700;font-size:0.88rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px;">Section 1 — Student Information</p>
+        <div class="form-row">
+          <div class="form-group"><label>Student Name</label><input type="text" /></div>
+          <div class="form-group"><label>Date of Birth</label><input type="date" /></div>
+          <div class="form-group"><label>Grade / Level</label><input type="text" /></div>
+          <div class="form-group"><label>School / Setting</label><input type="text" /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Disability / Diagnosis (if available)</label><input type="text" /></div>
+          <div class="form-group"><label>Plan Date</label><input type="date" /></div>
+          <div class="form-group"><label>Prepared By (Teacher)</label><input type="text" /></div>
+          <div class="form-group"><label>Review Date</label><input type="date" /></div>
+        </div>
+
+        <p style="color:var(--gold);font-weight:700;font-size:0.88rem;text-transform:uppercase;letter-spacing:.06em;margin:24px 0 16px;">Section 2 — Target Behavior Description</p>
+        <div class="form-row">
+          <div class="form-group"><label>Observable, Measurable Definition of Target Behavior</label><textarea placeholder="Describe the behavior in objective, observable terms..."></textarea></div>
+          <div class="form-group"><label>Behavior Frequency / Intensity / Duration (Baseline Data)</label><textarea placeholder="e.g., occurs 4–6 times per 45-minute session..."></textarea></div>
+        </div>
+
+        <p style="color:var(--gold);font-weight:700;font-size:0.88rem;text-transform:uppercase;letter-spacing:.06em;margin:24px 0 16px;">Section 3 — FBA Summary (ABC Data)</p>
+        <div class="form-row">
+          <div class="form-group"><label>Antecedent (What triggers the behavior?)</label><textarea></textarea></div>
+          <div class="form-group"><label>Behavior (Observable description)</label><textarea></textarea></div>
+          <div class="form-group"><label>Consequence (What follows the behavior?)</label><textarea></textarea></div>
+        </div>
+        <div class="form-group"><label>Hypothesis Statement</label><textarea placeholder="When [antecedent], [student name] engages in [behavior] in order to [function]..."></textarea></div>
+
+        <p style="color:var(--gold);font-weight:700;font-size:0.88rem;text-transform:uppercase;letter-spacing:.06em;margin:24px 0 16px;">Section 4 — Function of Behavior</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Primary Function</label>
+            <select><option value="">Select function...</option><option>Attention-seeking (peer or adult)</option><option>Escape / Avoidance (task or person)</option><option>Sensory stimulation / self-regulation</option><option>Access to tangible items / preferred activities</option><option>Communication (expressing needs)</option><option>Multiple functions</option></select>
+          </div>
+          <div class="form-group"><label>Secondary Function (if any)</label><input type="text" /></div>
+        </div>
+
+        <p style="color:var(--gold);font-weight:700;font-size:0.88rem;text-transform:uppercase;letter-spacing:.06em;margin:24px 0 16px;">Section 5 — Replacement Behavior</p>
+        <div class="form-row">
+          <div class="form-group"><label>Replacement Behavior (functionally equivalent, socially acceptable)</label><textarea placeholder="e.g., Student will use a break card to request a sensory break..."></textarea></div>
+          <div class="form-group"><label>How will the replacement behavior be taught?</label><textarea placeholder="e.g., Explicit instruction, modeling, and reinforcement practice..."></textarea></div>
+        </div>
+
+        <p style="color:var(--gold);font-weight:700;font-size:0.88rem;text-transform:uppercase;letter-spacing:.06em;margin:24px 0 16px;">Section 6 — Antecedent Strategies (Prevention)</p>
+        <div class="form-group"><label>What changes to the environment / instruction will prevent the behavior?</label><textarea placeholder="e.g., Modify task difficulty, provide advance transition warnings, adjust seating..."></textarea></div>
+
+        <p style="color:var(--gold);font-weight:700;font-size:0.88rem;text-transform:uppercase;letter-spacing:.06em;margin:24px 0 16px;">Section 7 — Consequence Strategies</p>
+        <div class="form-row">
+          <div class="form-group"><label>Reinforcement Plan</label><textarea placeholder="Reinforce replacement behavior immediately with..."></textarea></div>
+          <div class="form-group"><label>Response to Target Behavior</label><textarea placeholder="When target behavior occurs, the team will..."></textarea></div>
+        </div>
+
+        <p style="color:var(--gold);font-weight:700;font-size:0.88rem;text-transform:uppercase;letter-spacing:.06em;margin:24px 0 16px;">Section 8 — Collaboration &amp; Monitoring</p>
+        <div class="form-row">
+          <div class="form-group"><label>Team Members Involved</label><textarea placeholder="e.g., SPED teacher, regular teacher, parent, SLP..."></textarea></div>
+          <div class="form-group">
+            <label>FBA Review Frequency</label>
+            <select><option>Weekly</option><option>Bi-weekly</option><option>Monthly</option><option>Per quarter</option></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Progress Monitoring Method</label><textarea placeholder="e.g., Daily frequency count, weekly ABC chart review..."></textarea></div>
+          <div class="form-group"><label>Generalization Plan (other settings)</label><textarea placeholder="How will this plan be extended to home, therapy, or other classrooms?"></textarea></div>
+        </div>
+
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-top:14px;font-style:italic;">Researcher-crafted BIP template (Group 6, BSNEd 4.1, National Teachers College, 2025–2026). Aligned with: IRIS Center. (2024). <em>BIP (elementary): Developing a behavior intervention plan.</em> Vanderbilt University. https://iris.peabody.vanderbilt.edu/module/bip-elem/ | Crone, D. A., Hawken, L. S., &amp; Horner, R. H. (2015). <em>Building positive behavior support systems in schools</em> (2nd ed.). Guilford Press.</p>
+
+        <div class="gdocs-link-box">
+          <div class="gdocs-icon">📄</div>
+          <div class="gdocs-text">
+            <strong>Access the Editable Version on Google Docs</strong>
+            <p>Open the fillable, printable version of all ABC &amp; BIP forms in Google Docs. Make a copy to save your own editable version.</p>
+          </div>
+          <a href="https://docs.google.com/document/d/1QisZKkPwbAmjzz1qtKa5FW9lzGT6bB6UJ1k3nnHOEi0/edit?usp=sharing" target="_blank" class="btn btn-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 48 48" fill="none" style="flex-shrink:0"><rect width="48" height="48" rx="6" fill="#4285F4"/><path d="M14 34h20v-2H14v2zm0-6h20v-2H14v2zm0-6h12v-2H14v2zm-2-12v28a2 2 0 002 2h20a2 2 0 002-2V16l-8-8H14a2 2 0 00-2 2z" fill="white"/><path d="M30 16l6 6h-6v-6z" fill="#c6d5f7"/></svg>
+            Open in Google Docs
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section id="cases">
+  <div class="section-inner">
+    <div class="section-label">Practice Scenarios</div>
+    <h2 class="section-title">FBA Case Studies</h2>
+    <p class="section-sub">Four evidence-based scenarios for hands-on practice with ABC data analysis and hypothesis formation. Expand each case to review full details.</p>
+    <div class="divider"></div>
+
+    <div class="accordion">
+      <button class="accordion-head" onclick="toggleAccordion(this)">
+        <span>🏫 Case 1 — Classroom Disruption · John, Age 10 · Grade 4 · Function: Escape</span>
+        <span class="icon">▼</span>
+      </button>
+      <div class="accordion-body">
+        <span class="case-badge case-a">A — Antecedent</span>
+        <p style="color:var(--text-mid);margin-bottom:14px;">Teacher gives John a math worksheet and asks him to complete it independently.</p>
+        <span class="case-badge case-b">B — Behavior</span>
+        <p style="color:var(--text-mid);margin-bottom:14px;">John crumples the paper, throws it on the floor, and loudly says "I don't want to!"</p>
+        <span class="case-badge case-c">C — Consequence</span>
+        <p style="color:var(--text-mid);margin-bottom:14px;">Teacher removes the worksheet and allows John to sit quietly until the next activity.</p>
+        <div class="hypothesis-box"><strong>Hypothesis Statement:</strong> When presented with independent written academic tasks, John engages in disruptive behavior (throwing materials, verbal refusal) in order to escape/avoid the difficult task.</div>
+        <p style="color:var(--text-mid);font-size:0.9rem;"><strong style="color:var(--gold);">Intervention Idea:</strong> Provide modified worksheets with fewer problems; offer task choices; use a break card system; reinforce task initiation and completion with short earned breaks; teach John to request help appropriately.</p>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="accordion-head" onclick="toggleAccordion(this)">
+        <span>🏥 Case 2 — Self-Injurious Behavior · Maria, Age 8 · Therapy Room · Function: Escape Transition</span>
+        <span class="icon">▼</span>
+      </button>
+      <div class="accordion-body">
+        <span class="case-badge case-a">A — Antecedent</span>
+        <p style="color:var(--text-mid);margin-bottom:14px;">Therapist prompts Maria to transition from playing with blocks to a puzzle activity.</p>
+        <span class="case-badge case-b">B — Behavior</span>
+        <p style="color:var(--text-mid);margin-bottom:14px;">Maria bangs her head lightly against the wall and cries.</p>
+        <span class="case-badge case-c">C — Consequence</span>
+        <p style="color:var(--text-mid);margin-bottom:14px;">Therapist stops the puzzle activity and comforts Maria.</p>
+        <div class="hypothesis-box"><strong>Hypothesis Statement:</strong> When prompted to transition away from preferred activities (blocks), Maria engages in self-injurious behavior (head-banging, crying) in order to avoid transitions and maintain access to preferred items.</div>
+        <p style="color:var(--text-mid);font-size:0.9rem;"><strong style="color:var(--gold);">Intervention Idea:</strong> Use visual schedules with picture-based transition warnings; provide a 2-minute countdown before transitions; pair new activity with preferred items; reinforce successful transitions immediately.</p>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="accordion-head" onclick="toggleAccordion(this)">
+        <span>🏠 Case 3 — Attention-Seeking Behavior · Alex, Age 12 · Home Setting · Function: Attention</span>
+        <span class="icon">▼</span>
+      </button>
+      <div class="accordion-body">
+        <span class="case-badge case-a">A — Antecedent</span>
+        <p style="color:var(--text-mid);margin-bottom:14px;">Parents are talking to each other and not paying attention to Alex during mealtime.</p>
+        <span class="case-badge case-b">B — Behavior</span>
+        <p style="color:var(--text-mid);margin-bottom:14px;">Alex throws food on the floor and shouts.</p>
+        <span class="case-badge case-c">C — Consequence</span>
+        <p style="color:var(--text-mid);margin-bottom:14px;">Parents immediately scold Alex and focus full attention on him.</p>
+        <div class="hypothesis-box"><strong>Hypothesis Statement:</strong> When parents are not attending to Alex (mealtime inattention), Alex engages in disruptive behavior (throwing food, shouting) in order to gain immediate adult attention.</div>
+        <p style="color:var(--text-mid);font-size:0.9rem;"><strong style="color:var(--gold);">Intervention Idea:</strong> Teach Alex appropriate attention-requesting behavior; reinforce appropriate requests with immediate attention; minimize parental attention to disruptive acts (planned ignoring); schedule 1:1 family time proactively.</p>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="accordion-head" onclick="toggleAccordion(this)">
+        <span>🎨 Case 4 — Sensory Avoidance · Liam, Age 7 · Art Class · Function: Sensory Escape</span>
+        <span class="icon">▼</span>
+      </button>
+      <div class="accordion-body">
+        <span class="case-badge case-a">A — Antecedent</span>
+        <p style="color:var(--text-mid);margin-bottom:14px;">Teacher gives Liam finger paints and asks him to create a picture.</p>
+        <span class="case-badge case-b">B — Behavior</span>
+        <p style="color:var(--text-mid);margin-bottom:14px;">Liam screams, pushes the paint away, and covers his hands.</p>
+        <span class="case-badge case-c">C — Consequence</span>
+        <p style="color:var(--text-mid);margin-bottom:14px;">Teacher allows Liam to use crayons instead.</p>
+        <div class="hypothesis-box"><strong>Hypothesis Statement:</strong> When presented with tactile/messy sensory materials (finger paint), Liam engages in avoidance behavior (screaming, pushing materials away) in order to escape uncomfortable tactile stimulation.</div>
+        <p style="color:var(--text-mid);font-size:0.9rem;"><strong style="color:var(--gold);">Intervention Idea:</strong> Implement a gradual sensory desensitization plan; begin with less-messy tools and introduce finger paint incrementally; pair sensory activities with preferred items; consult occupational therapist for sensory integration strategies.</p>
+      </div>
+    </div>
+
+    <div class="card mt-24">
+      <h3 style="font-family:'Playfair Display',serif;color:var(--gold);margin-bottom:16px;">Practice Activity: Write Your Own Hypothesis</h3>
+      <p style="color:var(--text-mid);margin-bottom:16px;">Using any of the case studies above, write a complete hypothesis statement and propose a replacement behavior below.</p>
+      <div class="form-row">
+        <div class="form-group"><label>Selected Case</label><select><option>Case 1 — Classroom Disruption (John)</option><option>Case 2 — Self-Injurious Behavior (Maria)</option><option>Case 3 — Attention-Seeking (Alex)</option><option>Case 4 — Sensory Avoidance (Liam)</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Your Hypothesis Statement</label><textarea placeholder="When..., [student] engages in... in order to..."></textarea></div>
+        <div class="form-group"><label>Proposed Replacement Behavior</label><textarea placeholder="Instead of..., [student] will..."></textarea></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section id="videos">
+  <div class="section-inner">
+    <div class="section-label">Video Learning Series</div>
+    <h2 class="section-title">Curated FBA Video Resources</h2>
+    <p class="section-sub">Organized video materials aligned with the three-day workshop. Watch in sequence or by topic area.</p>
+    <div class="divider"></div>
+
+    <div class="video-grid">
+      <div class="video-card">
+        <div class="video-thumb">🎬</div>
+        <div class="video-body">
+          <div class="video-tag">Video 1 · Day 1</div>
+          <h3>What is FBA? Introduction for SPED Teachers</h3>
+          <div class="video-tags"><span class="vtag">Purpose</span><span class="vtag">Inclusive Education</span><span class="vtag">RA 11650</span></div>
+          <p>Introduces the FBA framework for SPED teachers — its definition, goals, and grounding in Philippine inclusive education.</p>
+          <p class="video-cite">Mendezabal, J. (2026). <em>Inclusive Education Act RA 11650.</em> YouTube.</p>
+          <a href="https://www.youtube.com/watch?v=KlbGnIgbA5s" target="_blank" class="btn btn-sm">▶ Watch on YouTube</a>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-thumb">🎬</div>
+        <div class="video-body">
+          <div class="video-tag">Video 1b · Day 1</div>
+          <h3>Functional Behavioral Assessment: The FBA</h3>
+          <div class="video-tags"><span class="vtag">FBA Overview</span><span class="vtag">Framework</span></div>
+          <p>Comprehensive overview of the FBA process — purpose, steps, and foundational concepts for inclusive and SPED educators.</p>
+          <p class="video-cite">Teachings in Education. (2017). <em>Functional Behavioral Assessment: the FBA.</em> YouTube.</p>
+          <a href="https://www.youtube.com/watch?v=Qaz5kcS2oD4" target="_blank" class="btn btn-sm">▶ Watch on YouTube</a>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-thumb">🎬</div>
+        <div class="video-body">
+          <div class="video-tag">Video 2 · Day 1–2</div>
+          <h3>The ABC Model Explained with Classroom Examples</h3>
+          <div class="video-tags"><span class="vtag">ABC Model</span><span class="vtag">Antecedent</span><span class="vtag">Consequence</span></div>
+          <p>Step-by-step walkthrough of Antecedent–Behavior–Consequence using real inclusive classroom situations and behavioral patterns.</p>
+          <p class="video-cite">Teachings in Education. (2017b). <em>Antecedent Behavior Consequence: ABC Charts &amp; Model.</em> YouTube.</p>
+          <a href="https://www.youtube.com/watch?v=UVKb_BXEp5U" target="_blank" class="btn btn-sm">▶ Watch on YouTube</a>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-thumb">🎬</div>
+        <div class="video-body">
+          <div class="video-tag">Video 3 · Day 2 Playlist</div>
+          <h3>How to Collect Behavioral Data — Methods &amp; Tools</h3>
+          <div class="video-tags"><span class="vtag">Data Collection</span><span class="vtag">Observation Tools</span><span class="vtag">ABA</span></div>
+          <p>Curated playlist covering behavioral observation methods, recording strategies, and data collection tools for classroom use.</p>
+          <p class="video-cite"><em>FBA Tools &amp; Data Collection in ABA | Observing Behavior Effectively.</em> YouTube Playlist.</p>
+          <a href="https://youtube.com/playlist?list=PLco3rRmDKiAetfb4GNot8y0yk6E4M9-uW" target="_blank" class="btn btn-sm">▶ Watch Playlist</a>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-thumb">🎬</div>
+        <div class="video-body">
+          <div class="video-tag">Video 4 · Day 3</div>
+          <h3>Writing a BIP from FBA Results</h3>
+          <div class="video-tags"><span class="vtag">BIP</span><span class="vtag">Intervention</span><span class="vtag">ABA</span></div>
+          <p>Comprehensive guide to understanding and implementing a Behavior Intervention Plan using applied behavior analysis principles.</p>
+          <p class="video-cite">Teachings in Education. (2017). <em>Behavior Intervention Plan: BIP Overview.</em> YouTube.</p>
+          <a href="https://www.youtube.com/watch?v=AUU4jP18gY4" target="_blank" class="btn btn-sm">▶ Watch on YouTube</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-24">
+      <h3 style="font-family:'Playfair Display',serif;color:var(--gold);margin-bottom:12px;">Workshop Note: How to Use These Videos</h3>
+      <p style="color:var(--text-mid);">Show Video 1 and 1b during Day 1 opening to establish conceptual grounding. Use Video 2 as the lead-in to the ABC Guided Practice activity. Assign the Video 3 playlist as a pre-viewing task or reference during Day 2 hands-on stations. Present Video 4 before the BIP Design workshop on Day 3 to model the connection between FBA findings and intervention writing.</p>
+    </div>
+  </div>
+</section>
+
+<!-- OFFICIAL LETTERS -->
+<section id="letters">
+  <div class="section-inner">
+    <div class="section-label">Official Documentation</div>
+    <h2 class="section-title">Letters &amp; Consent Forms</h2>
+    <p class="section-sub">These letters were crafted by the researchers (Group 6, BSNEd 4.1) to assist future scholars who wish to carry out or expand this study. Preview each letter below and access the editable Google Docs version for use.</p>
+    <div class="divider"></div>
+
+    <!-- Google Docs access card -->
+    <div class="card" style="margin-bottom:32px;border-left:4px solid var(--gold);display:flex;flex-wrap:wrap;align-items:center;gap:20px;">
+      <div style="flex:1;min-width:220px;">
+        <p style="font-size:0.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-mid);margin-bottom:6px;">Google Docs — Editable Template</p>
+        <h3 style="font-family:'Playfair Display',serif;color:var(--blue-dark);font-size:1.15rem;margin-bottom:8px;">Official Letters &amp; Consent Forms</h3>
+        <p style="color:var(--text-mid);font-size:0.9rem;">Access the fully editable version of both letters on Google Docs. Fill in the blank fields, make a copy, and save or print directly from Google Docs.</p>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-top:8px;font-style:italic;">Group 6, BSNEd 4.1 · National Teachers College · 2025–2026</p>
+      </div>
+      <div style="flex-shrink:0;">
+        <a href="https://docs.google.com/document/d/1iUqKua2gNlmLs85v75YmMd02lzgJPEfTQQR1X0Krpqw/edit?usp=sharing" target="_blank" class="btn" style="gap:10px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 48 48" fill="none" style="flex-shrink:0"><rect width="48" height="48" rx="6" fill="#4285F4"/><path d="M14 34h20v-2H14v2zm0-6h20v-2H14v2zm0-6h12v-2H14v2zm-2-12v28a2 2 0 002 2h20a2 2 0 002-2V16l-8-8H14a2 2 0 00-2 2z" fill="white"/><path d="M30 16l6 6h-6v-6z" fill="#c6d5f7"/></svg>
+          Open in Google Docs
+        </a>
+      </div>
+    </div>
+
+    <!-- Invitation Letter -->
+    <div style="margin-bottom:32px;">
+      <div style="margin-bottom:14px;">
+        <p style="font-size:0.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-mid);margin-bottom:4px;">Document 1 — Preview</p>
+        <h3 style="font-family:'Playfair Display',serif;color:var(--blue-dark);font-size:1.2rem;">Invitation Letter — FBA Workshop</h3>
+      </div>
+
+      <div class="letter-box" id="letter-invitation">
+        <h3>Invitation Letter — FBA Workshop</h3>
+        <p><em>For: College Dean · School Administration</em></p><br>
+        <p>Date: <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p><br>
+        <p>DR. <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br>
+        Dean, College of Education<br>
+        National Teachers College</p><br>
+        <p>Dear <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>,</p><br>
+        <p>Greetings!</p><br>
+        <p>We are pleased to invite you and your designated representatives to participate in the <strong>3-Day Functional Behavioral Assessment (FBA) Workshop</strong>, a professional development program designed for pre-service Special Needs Education (SNEd) teachers enrolled in the Bachelor of Special Needs Education (BSNEd) program.</p><br>
+        <p>This workshop is a primary output of the research study entitled <em>"Exploring the Level of Awareness of Pre-Service Special Needs Education Teachers on Functional Behavioral Assessment (FBA): A Basis for FBA Workshop,"</em> conducted by 4th Year BSNEd students at National Teachers College. The study identified significant gaps in pre-service teacher knowledge of FBA concepts, processes, and data collection techniques — gaps this workshop is specifically designed to address.</p><br>
+        <p>The workshop aims to develop participants' knowledge, understanding, and technical skills in conducting FBA — a systematic, evidence-based process essential in inclusive and special education settings.</p><br>
+        <p><strong>Workshop Details</strong><br>
+        Title: 3-Day FBA Workshop<br>
+        Dates: <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br>
+        Time: 8:30 AM – 4:30 PM<br>
+        Venue: <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br>
+        Target Participants: Pre-service BSNEd Teachers<br>
+        Expected No. of Participants: ___</p><br>
+        <p>Your approval and support for this workshop is highly valued. We kindly request your endorsement to allow BSNEd students and faculty mentors to participate. Kindly confirm institutional support on or before <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> by contacting the lead researcher, <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> at <span class="blank">&nbsp;&nbsp;&nbsp;Email&nbsp;&nbsp;&nbsp;</span>.</p><br>
+        <p>We look forward to your favorable response and your institution's meaningful engagement in this initiative.</p><br>
+        <p>Respectfully yours,<br><br>
+        <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br>
+        Lead Researcher<br><br>
+        Noted by: Thesis Adviser &nbsp;&nbsp;&nbsp; Endorsed by: Department Chair</p>
+      </div>
+    </div>
+
+    <!-- Informed Consent -->
+    <div>
+      <div style="margin-bottom:14px;">
+        <p style="font-size:0.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-mid);margin-bottom:4px;">Document 2 — Preview</p>
+        <h3 style="font-family:'Playfair Display',serif;color:var(--blue-dark);font-size:1.2rem;">Informed Consent Letter</h3>
+      </div>
+
+      <div class="letter-box" id="letter-consent">
+        <h3>Informed Consent Letter</h3>
+        <p><em>For: Parent / Guardian of Student Participant</em></p><br>
+        <p>Date: <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p><br>
+        <p>Dear Parent / Guardian of [Student Name],</p><br>
+        <p>We are writing to inform you that [Student Name] has been identified for a <strong>Functional Behavioral Assessment (FBA)</strong> as part of a professional development study being conducted by pre-service teachers of the BSNEd program at [Institution].</p><br>
+        <p>The purpose of the FBA is to better understand the function of your child's behavior so that appropriate, supportive interventions can be developed. The assessment will involve <strong>direct observation</strong> in the classroom setting, <strong>data collection</strong> using ABC (Antecedent-Behavior-Consequence) recording, and a review of existing school records (if applicable).</p><br>
+        <p><strong>Confidentiality:</strong> All information gathered will be kept strictly confidential and used solely for educational and research purposes. Your child's identity will not be disclosed in any publication or report.</p><br>
+        <p><strong>Voluntariness:</strong> Participation is completely voluntary. You have the right to withdraw consent at any time without penalty or consequence to your child's education.</p><br>
+        <p>If you agree to allow your child to participate, please sign below and return this form to [Contact Person] by [Return Date].</p><br>
+        <p><strong>Parent / Guardian name:</strong> <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+        <p><strong>Signature:</strong> <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+        <p><strong>Date:</strong> <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p><br>
+        <p>For questions, please contact: [Researcher Name &amp; Contact Number]</p><br>
+        <p>Respectfully,<br><br>
+        <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br>
+        Researcher / Lead Teacher<br>
+        Designation &amp; Institution</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">FBA Toolkit</div>
+  <p>3-Day Functional Behavioral Assessment Workshop for Pre-Service SNEd Teachers</p>
+  <p>Research Output: <em>Exploring the Level of Awareness of Pre-Service SNEd Teachers on FBA: A Basis for FBA Workshop</em></p>
+  <p>BSNEd 4.1 · National Teachers College · 2025–2026</p>
+  <p style="margin-top:12px;">Group 6 · All toolkit content based on original researcher findings · Website developed with AI assistance</p>
+  <p style="margin-top:16px;font-size:0.78rem;color:#4a5568;">
+    Cooper, J. O., Heron, T. E., &amp; Heward, W. L. (2020). <em>Applied behavior analysis</em> (3rd ed.). Pearson. |
+    Crone, D. A., Hawken, L. S., &amp; Horner, R. H. (2015). <em>Building positive behavior support systems in schools</em> (2nd ed.). Guilford Press. |
+    IRIS Center. (2024). <em>FBA (elementary).</em> Vanderbilt University. <a href="https://iris.peabody.vanderbilt.edu/module/fba-elem/" target="_blank">https://iris.peabody.vanderbilt.edu/module/fba-elem/</a> |
+    O'Neill, R. E., Albin, R. W., Storey, K., Horner, R. H., &amp; Sprague, J. R. (2015). <em>Functional assessment and program development</em> (3rd ed.). Cengage.
+  </p>
+</footer>
+
+<script>
+  // TABS
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // ACCORDION
+  function toggleAccordion(btn) {
+    const body = btn.nextElementSibling;
+    const icon = btn.querySelector('.icon');
+    const isOpen = body.classList.contains('open');
+    document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('open'));
+    document.querySelectorAll('.accordion-head .icon').forEach(i => i.textContent = '▼');
+    if (!isOpen) {
+      body.classList.add('open');
+      icon.textContent = '▲';
+    }
+  }
+
+  // QUIZ
+  const answers = { q1:'B', q2:'B', q3:'C', q4:'D', q5:'C', q6:'C', q7:'B', q8:'B', q9:'C', q10:'B' };
+  function submitQuiz() {
+    let score = 0;
+    for (let i = 1; i <= 10; i++) {
+      const sel = document.querySelector(`input[name="q${i}"]:checked`);
+      const res = document.getElementById(`r${i}`);
+      if (sel) {
+        if (sel.value === answers[`q${i}`]) {
+          score++;
+          res.textContent = '✓ Correct!';
+          res.className = 'quiz-result correct';
+        } else {
+          res.textContent = `✗ Incorrect. Correct answer: ${answers['q'+i]}`;
+          res.className = 'quiz-result wrong';
+        }
+        res.style.display = 'block';
+      }
+    }
+    const box = document.getElementById('scoreBox');
+    box.style.display = 'block';
+    document.getElementById('scoreNum').textContent = `${score}/10`;
+    const pct = score * 10;
+    let msg = pct >= 80 ? 'Excellent! Strong FBA knowledge demonstrated.' : pct >= 60 ? 'Good effort. Review the areas you missed before the workshop.' : 'Consider reviewing all toolkit sections before attending the workshop.';
+    document.getElementById('scoreFeedback').textContent = msg;
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  function resetQuiz() {
+    document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+    document.querySelectorAll('.quiz-result').forEach(r => { r.style.display = 'none'; r.textContent = ''; });
+    document.getElementById('scoreBox').style.display = 'none';
+  }
+</script>
+</body>
+</html>
